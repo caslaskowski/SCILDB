@@ -1,0 +1,592 @@
+[
+  {
+    "fullName": "John Jay",
+    "yearsCourt": "10/19/1789-06/29/1795",
+    "justiceName": "JJay"
+  },
+  {
+    "fullName": "John Rutledge",
+    "yearsCourt": "02/15/1790-03/05/1791",
+    "justiceName": "JRutledge1"
+  },
+  {
+    "fullName": "William Cushing",
+    "yearsCourt": "02/02/1790-09/13/1810",
+    "justiceName": "WCushing"
+  },
+  {
+    "fullName": "James Wilson",
+    "yearsCourt": "10/05/1789-08/21/1798",
+    "justiceName": "JWilson"
+  },
+  {
+    "fullName": "John Blair",
+    "yearsCourt": "02/02/1790-01/27/1796",
+    "justiceName": "JBlair"
+  },
+  {
+    "fullName": "James Iredell",
+    "yearsCourt": "05/12/1790-10/20/1799",
+    "justiceName": "JIredell"
+  },
+  {
+    "fullName": "Thomas Johnson",
+    "yearsCourt": "09/19/1791-02/22/1793",
+    "justiceName": "TJohnson"
+  },
+  {
+    "fullName": "William Paterson",
+    "yearsCourt": "03/11/1793-09/09/1806",
+    "justiceName": "WPaterson"
+  },
+  {
+    "fullName": "John Rutledge",
+    "yearsCourt": "08/12/1795-12/15/1795",
+    "justiceName": "JRutledge2"
+  },
+  {
+    "fullName": "Samuel Chase",
+    "yearsCourt": "02/04/1796-06/19/1811",
+    "justiceName": "SChase"
+  },
+  {
+    "fullName": "Oliver Ellsworth",
+    "yearsCourt": "03/08/1796-12/15/1800",
+    "justiceName": "OEllsworth"
+  },
+  {
+    "fullName": "Bushrod Washington",
+    "yearsCourt": "11/09/1798-11/26/1829",
+    "justiceName": "BWashington"
+  },
+  {
+    "fullName": "Alfred Moore",
+    "yearsCourt": "04/21/1800-01/26/1804",
+    "justiceName": "AMoore"
+  },
+  {
+    "fullName": "John Marshall",
+    "yearsCourt": "02/04/1801-07/06/1835",
+    "justiceName": "JMarshall"
+  },
+  {
+    "fullName": "William Johnson",
+    "yearsCourt": "05/07/1804-08/04/1834",
+    "justiceName": "WJohnson"
+  },
+  {
+    "fullName": "Henry Livingston",
+    "yearsCourt": "01/20/1807-03/18/1823",
+    "justiceName": "HBLivingston"
+  },
+  {
+    "fullName": "Thomas Todd",
+    "yearsCourt": "05/04/1807-02/07/1826",
+    "justiceName": "TTodd"
+  },
+  {
+    "fullName": "Gabriel Duvall",
+    "yearsCourt": "11/23/1811-01/14/1835",
+    "justiceName": "GDuvall"
+  },
+  {
+    "fullName": "Joseph Story",
+    "yearsCourt": "02/03/1812-09/10/1845",
+    "justiceName": "JStory"
+  },
+  {
+    "fullName": "Smith Thompson",
+    "yearsCourt": "09/01/1823-12/18/1843",
+    "justiceName": "SThompson"
+  },
+  {
+    "fullName": "Robert Trimble",
+    "yearsCourt": "06/16/1826-08/25/1828",
+    "justiceName": "RTrimble"
+  },
+  {
+    "fullName": "John McLean",
+    "yearsCourt": "01/11/1830-04/04/1861",
+    "justiceName": "JMcLean"
+  },
+  {
+    "fullName": "Henry Baldwin",
+    "yearsCourt": "01/18/1830-04/21/1844",
+    "justiceName": "HBaldwin"
+  },
+  {
+    "fullName": "James Wayne",
+    "yearsCourt": "01/14/1835-07/05/1867",
+    "justiceName": "JMWayne"
+  },
+  {
+    "fullName": "Roger Taney",
+    "yearsCourt": "03/28/1836-10/12/1864",
+    "justiceName": "RBTaney"
+  },
+  {
+    "fullName": "Philip Barbour",
+    "yearsCourt": "05/12/1836-02/25/1841",
+    "justiceName": "PPBarbour"
+  },
+  {
+    "fullName": "John Catron",
+    "yearsCourt": "05/01/1837-05/30/1865",
+    "justiceName": "JCatron"
+  },
+  {
+    "fullName": "John McKinley",
+    "yearsCourt": "04/22/1837-07/19/1852",
+    "justiceName": "JMcKinley"
+  },
+  {
+    "fullName": "Peter Daniel",
+    "yearsCourt": "01/10/1842-05/31/1860",
+    "justiceName": "PVDaniel"
+  },
+  {
+    "fullName": "Samuel Nelson",
+    "yearsCourt": "02/27/1845-11/28/1872",
+    "justiceName": "SNelson"
+  },
+  {
+    "fullName": "Levi Woodbury",
+    "yearsCourt": "09/23/1845-09/04/1851",
+    "justiceName": "LWoodbury"
+  },
+  {
+    "fullName": "Robert Grier",
+    "yearsCourt": "08/10/1846-01/31/1870",
+    "justiceName": "RCGrier"
+  },
+  {
+    "fullName": "Benjamin Curtis",
+    "yearsCourt": "10/10/1851-09/30/1857",
+    "justiceName": "BRCurtis"
+  },
+  {
+    "fullName": "John Campbell",
+    "yearsCourt": "04/11/1853-04/30/1861",
+    "justiceName": "JACampbell"
+  },
+  {
+    "fullName": "Nathan Clifford",
+    "yearsCourt": "01/21/1858-07/25/1881",
+    "justiceName": "NClifford"
+  },
+  {
+    "fullName": "Noah Swayne",
+    "yearsCourt": "01/27/1862-01/24/1881",
+    "justiceName": "NHSwayne"
+  },
+  {
+    "fullName": "Samuel Miller",
+    "yearsCourt": "07/21/1862-10/13/1890",
+    "justiceName": "SFMiller"
+  },
+  {
+    "fullName": "David Davis",
+    "yearsCourt": "10/17/1862-03/04/1877",
+    "justiceName": "DDavis"
+  },
+  {
+    "fullName": "Stephen Field",
+    "yearsCourt": "05/20/1863-12/01/1897",
+    "justiceName": "SJField"
+  },
+  {
+    "fullName": "Salmon Chase",
+    "yearsCourt": "12/15/1864-05/07/1873",
+    "justiceName": "SPChase"
+  },
+  {
+    "fullName": "William Strong",
+    "yearsCourt": "03/14/1870-12/14/1880",
+    "justiceName": "WStrong"
+  },
+  {
+    "fullName": "Joseph Bradley",
+    "yearsCourt": "03/21/1870-01/22/1892",
+    "justiceName": "JPBradley"
+  },
+  {
+    "fullName": "Ward Hunt",
+    "yearsCourt": "01/09/1873-01/27/1882",
+    "justiceName": "WHunt"
+  },
+  {
+    "fullName": "Morrison Waite",
+    "yearsCourt": "03/04/1874-04/03/1888",
+    "justiceName": "MRWaite"
+  },
+  {
+    "fullName": "John Harlan",
+    "yearsCourt": "12/10/1877-10/14/1911",
+    "justiceName": "JHarlan1"
+  },
+  {
+    "fullName": "William Woods",
+    "yearsCourt": "01/05/1881-05/14/1887",
+    "justiceName": "WBWoods"
+  },
+  {
+    "fullName": "Stanley Matthews",
+    "yearsCourt": "05/17/1881-03/22/1889",
+    "justiceName": "SMatthews"
+  },
+  {
+    "fullName": "Horace Gray",
+    "yearsCourt": "01/09/1882-09/15/1902",
+    "justiceName": "HGray"
+  },
+  {
+    "fullName": "Samuel Blatchford",
+    "yearsCourt": "04/03/1882-07/07/1893",
+    "justiceName": "SBlatchford"
+  },
+  {
+    "fullName": "Lucius Lamar",
+    "yearsCourt": "01/18/1888-01/23/1893",
+    "justiceName": "LQLamar"
+  },
+  {
+    "fullName": "Melville Fuller",
+    "yearsCourt": "10/08/1888-07/04/1910",
+    "justiceName": "MWFuller"
+  },
+  {
+    "fullName": "David Brewer",
+    "yearsCourt": "01/06/1890-03/28/1910",
+    "justiceName": "DJBrewer"
+  },
+  {
+    "fullName": "Henry Brown",
+    "yearsCourt": "01/05/1891-05/28/1906",
+    "justiceName": "HBBrown"
+  },
+  {
+    "fullName": "George Shiras",
+    "yearsCourt": "10/10/1892-02/23/1903",
+    "justiceName": "GShiras"
+  },
+  {
+    "fullName": "Howell Jackson",
+    "yearsCourt": "03/04/1893-08/08/1895",
+    "justiceName": "HEJackson"
+  },
+  {
+    "fullName": "Edward White",
+    "yearsCourt": "03/12/1894-05/19/1921",
+    "justiceName": "EDEWhite"
+  },
+  {
+    "fullName": "Rufus Peckham",
+    "yearsCourt": "01/06/1896-10/24/1909",
+    "justiceName": "RWPeckham"
+  },
+  {
+    "fullName": "Joseph McKenna",
+    "yearsCourt": "01/26/1898-01/05/1925",
+    "justiceName": "JMcKenna"
+  },
+  {
+    "fullName": "Oliver Holmes",
+    "yearsCourt": "08/11/1902-01/12/1932",
+    "justiceName": "OWHolmes"
+  },
+  {
+    "fullName": "William Day",
+    "yearsCourt": "03/02/1903-11/13/1922",
+    "justiceName": "WRDay"
+  },
+  {
+    "fullName": "William Moody",
+    "yearsCourt": "12/17/1906-11/20/1910",
+    "justiceName": "WHMoody"
+  },
+  {
+    "fullName": "Horace Lurton",
+    "yearsCourt": "01/03/1910-07/12/1914",
+    "justiceName": "HHLurton"
+  },
+  {
+    "fullName": "Charles Hughes",
+    "yearsCourt": "10/10/1910-06/10/1916",
+    "justiceName": "CEHughes1"
+  },
+  {
+    "fullName": "Willis Van Devanter",
+    "yearsCourt": "01/03/1911-06/02/1937",
+    "justiceName": "WVanDevanter"
+  },
+  {
+    "fullName": "Joseph Lamar",
+    "yearsCourt": "01/03/1911-01/02/1916",
+    "justiceName": "JRLamar"
+  },
+  {
+    "fullName": "Mahlon Pitney",
+    "yearsCourt": "03/18/1912-12/31/1922",
+    "justiceName": "MPitney"
+  },
+  {
+    "fullName": "James McReynolds",
+    "yearsCourt": "10/12/1914-01/31/1941",
+    "justiceName": "JCMcReynolds"
+  },
+  {
+    "fullName": "Louis Brandeis",
+    "yearsCourt": "06/05/1916-02/13/1939",
+    "justiceName": "LDBrandeis"
+  },
+  {
+    "fullName": "John Clarke",
+    "yearsCourt": "10/09/1916-09/18/1922",
+    "justiceName": "JHClarke"
+  },
+  {
+    "fullName": "William Taft",
+    "yearsCourt": "07/11/1921-02/03/1930",
+    "justiceName": "WHTaft"
+  },
+  {
+    "fullName": "George Sutherland",
+    "yearsCourt": "10/02/1922-01/17/1938",
+    "justiceName": "GSutherland"
+  },
+  {
+    "fullName": "Pierce Butler",
+    "yearsCourt": "01/02/1923-11/16/1939",
+    "justiceName": "PButler"
+  },
+  {
+    "fullName": "Edward Sanford",
+    "yearsCourt": "02/19/1923-03/08/1930",
+    "justiceName": "ETSanford"
+  },
+  {
+    "fullName": "Harlan Stone",
+    "yearsCourt": "03/02/1925-04/22/1946",
+    "justiceName": "HFStone"
+  },
+  {
+    "fullName": "Charles Hughes",
+    "yearsCourt": "02/24/1930-07/01/1941",
+    "justiceName": "CEHughes2"
+  },
+  {
+    "fullName": "Owen Roberts",
+    "yearsCourt": "06/02/1930-07/31/1945",
+    "justiceName": "OJRoberts"
+  },
+  {
+    "fullName": "Benjamin Cardozo",
+    "yearsCourt": "03/14/1932-07/09/1938",
+    "justiceName": "BNCardozo"
+  },
+  {
+    "fullName": "Hugo Black",
+    "yearsCourt": "08/19/1937-09/17/1971",
+    "justiceName": "HLBlack"
+  },
+  {
+    "fullName": "Stanley Reed",
+    "yearsCourt": "01/31/1938-02/25/1957",
+    "justiceName": "SFReed"
+  },
+  {
+    "fullName": "Felix Frankfurter",
+    "yearsCourt": "01/30/1939-08/28/1962",
+    "justiceName": "FFrankfurter"
+  },
+  {
+    "fullName": "William Douglas",
+    "yearsCourt": "04/17/1939-11/12/1975",
+    "justiceName": "WODouglas"
+  },
+  {
+    "fullName": "Francis Murphy",
+    "yearsCourt": "02/05/1940-07/19/1949",
+    "justiceName": "FMurphy"
+  },
+  {
+    "fullName": "James Byrnes",
+    "yearsCourt": "07/08/1941-10/03/1942",
+    "justiceName": "JFByrnes"
+  },
+  {
+    "fullName": "Robert Jackson",
+    "yearsCourt": "07/11/1941-10/09/1954",
+    "justiceName": "RHJackson"
+  },
+  {
+    "fullName": "Wiley Rutledge",
+    "yearsCourt": "02/15/1943-09/10/1949",
+    "justiceName": "WBRutledge"
+  },
+  {
+    "fullName": "Harold Burton",
+    "yearsCourt": "10/01/1945-10/13/1958",
+    "justiceName": "HHBurton"
+  },
+  {
+    "fullName": "Fred Vinson",
+    "yearsCourt": "06/24/1946-09/08/1953",
+    "justiceName": "FMVinson"
+  },
+  {
+    "fullName": "Tom Clark",
+    "yearsCourt": "08/24/1949-06/12/1967",
+    "justiceName": "TCClark"
+  },
+  {
+    "fullName": "Sherman Minton",
+    "yearsCourt": "10/12/1949-10/15/1956",
+    "justiceName": "SMinton"
+  },
+  {
+    "fullName": "Earl Warren",
+    "yearsCourt": "10/05/1953-06/23/1969",
+    "justiceName": "EWarren"
+  },
+  {
+    "fullName": "John Harlan",
+    "yearsCourt": "03/28/1955-09/23/1971",
+    "justiceName": "JHarlan2"
+  },
+  {
+    "fullName": "William Brennan",
+    "yearsCourt": "10/16/1956-07/20/1990",
+    "justiceName": "WJBrennan"
+  },
+  {
+    "fullName": "Charles Whittaker",
+    "yearsCourt": "03/25/1957-03/31/1962",
+    "justiceName": "CEWhittaker"
+  },
+  {
+    "fullName": "Potter Stewart",
+    "yearsCourt": "10/14/1958-07/03/1981",
+    "justiceName": "PStewart"
+  },
+  {
+    "fullName": "Byron White",
+    "yearsCourt": "04/16/1962-06/28/1993",
+    "justiceName": "BRWhite"
+  },
+  {
+    "fullName": "Arthur Goldberg",
+    "yearsCourt": "10/01/1962-07/25/1965",
+    "justiceName": "AJGoldberg"
+  },
+  {
+    "fullName": "Abe Fortas",
+    "yearsCourt": "10/04/1965-05/14/1969",
+    "justiceName": "AFortas"
+  },
+  {
+    "fullName": "Thurgood Marshall",
+    "yearsCourt": "10/02/1967-10/01/1991",
+    "justiceName": "TMarshall"
+  },
+  {
+    "fullName": "Warren Burger",
+    "yearsCourt": "06/23/1969-09/26/1986",
+    "justiceName": "WEBurger"
+  },
+  {
+    "fullName": "Harry Blackmun",
+    "yearsCourt": "06/09/1970-08/03/1994",
+    "justiceName": "HABlackmun"
+  },
+  {
+    "fullName": "Lewis Powell",
+    "yearsCourt": "01/07/1972-06/26/1987",
+    "justiceName": "LFPowell"
+  },
+  {
+    "fullName": "William Rehnquist",
+    "yearsCourt": "01/07/1972-09/03/2005",
+    "justiceName": "WHRehnquist"
+  },
+  {
+    "fullName": "John Stevens",
+    "yearsCourt": "12/19/1975-06/29/2010",
+    "justiceName": "JPStevens"
+  },
+  {
+    "fullName": "Sandra O'Connor",
+    "yearsCourt": "09/25/1981-01/31/2006",
+    "justiceName": "SDOConnor"
+  },
+  {
+    "fullName": "Antonin Scalia",
+    "yearsCourt": "09/26/1986-02/13/2016",
+    "justiceName": "AScalia"
+  },
+  {
+    "fullName": "Anthony Kennedy",
+    "yearsCourt": "02/18/1988-07/31/2018",
+    "justiceName": "AMKennedy"
+  },
+  {
+    "fullName": "David Souter",
+    "yearsCourt": "10/09/1990-06/29/2009",
+    "justiceName": "DHSouter"
+  },
+  {
+    "fullName": "Clarence Thomas",
+    "yearsCourt": "10/23/1991-",
+    "justiceName": "CThomas"
+  },
+  {
+    "fullName": "Ruth Ginsburg",
+    "yearsCourt": "08/10/1993-09/18/2020",
+    "justiceName": "RBGinsburg"
+  },
+  {
+    "fullName": "Stephen Breyer",
+    "yearsCourt": "08/03/1994-06/30/2022",
+    "justiceName": "SGBreyer"
+  },
+  {
+    "fullName": "John Roberts",
+    "yearsCourt": "09/29/2005-",
+    "justiceName": "JGRoberts"
+  },
+  {
+    "fullName": "Samuel Alito",
+    "yearsCourt": "01/31/2006-",
+    "justiceName": "SAAlito"
+  },
+  {
+    "fullName": "Sonia Sotomayor",
+    "yearsCourt": "08/08/2009-",
+    "justiceName": "SSotomayor"
+  },
+  {
+    "fullName": "Elena Kagan",
+    "yearsCourt": "08/07/2010-",
+    "justiceName": "EKagan"
+  },
+  {
+    "fullName": "Neil Gorsuch",
+    "yearsCourt": "04/08/2017-",
+    "justiceName": "NMGorsuch"
+  },
+  {
+    "fullName": "Brett Kavanaugh",
+    "yearsCourt": "10/06/2018-",
+    "justiceName": "BMKavanaugh"
+  },
+  {
+    "fullName": "Amy Barrett",
+    "yearsCourt": "10/27/2020-",
+    "justiceName": "ACBarrett"
+  },
+  {
+    "fullName": "Ketanji Jackson",
+    "yearsCourt": "06/30/2022-",
+    "justiceName": "KBJackson"
+  }
+]
