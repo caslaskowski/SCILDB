@@ -111,47 +111,65 @@ def left_join_with_fallback(left_df: pd.DataFrame,
                             primary_left_on: str,
                             primary_right_on: str,
                             fallback_left_on: str,
-                            fallback_right_on: str) -> tuple[pd.DataFrame, pd.DataFrame]:
+                            fallback_right_on: str) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
+    """
+    Returns (joined_df, still_unmatched, ambiguous_df).
+    Left rows that match exactly one right row (primary, else fallback) go to
+    joined_df. Left rows with 2+ potential matches are NOT joined; instead all
+    their candidate matches go to ambiguous_df for manual review.
+    """
     logger.info(f"Primary join: {primary_left_on} -> {primary_right_on}")
     logger.info(f"Fallback join: {fallback_left_on} -> {fallback_right_on}")
 
-    first_pass = left_df.merge(
-        right_df,
-        left_on=primary_left_on,
-        right_on=primary_right_on,
-        how='left',
-        indicator=True
+    left_columns = left_df.columns.tolist()
+
+    def _join_pass(left: pd.DataFrame, left_on: str, right_on: str):
+        """One merge pass, split into unique / unmatched / ambiguous."""
+        left = left.copy()
+        left['_left_idx'] = range(len(left))
+        merged = left.merge(
+            right_df,
+            left_on=left_on,
+            right_on=right_on,
+            how='left',
+            indicator=True
+        )
+        match_counts = merged.groupby('_left_idx')['_merge'].transform(
+            lambda s: (s == 'both').sum()
+        )
+        unique_matched = merged[(merged['_merge'] == 'both') & (match_counts == 1)]
+        ambiguous = merged[match_counts > 1]
+        unmatched = merged[merged['_merge'] == 'left_only']
+        drop_cols = ['_merge', '_left_idx']
+        return (
+            unique_matched.drop(columns=drop_cols),
+            unmatched[left_columns].copy(),
+            ambiguous.drop(columns=drop_cols),
+        )
+
+    # ── Primary pass ──
+    matched_df, unmatched_left, primary_ambiguous = _join_pass(
+        left_df, primary_left_on, primary_right_on
     )
-
-    matched_df = first_pass[first_pass['_merge'] == 'both'].drop(columns=['_merge'])
-    unmatched_left = first_pass[first_pass['_merge'] == 'left_only'].drop(columns=['_merge'])
-
-    logger.info(f"Primary match: {len(matched_df)} rows matched")
+    logger.info(f"Primary match: {len(matched_df)} rows matched uniquely")
+    logger.info(f"Primary match: {len(primary_ambiguous)} candidate rows ambiguous")
     logger.info(f"Primary match: {len(unmatched_left)} rows unmatched, attempting fallback...")
 
-    left_columns = left_df.columns.tolist()
-    unmatched_left = unmatched_left[left_columns].copy()
-
-    second_pass = unmatched_left.merge(
-        right_df,
-        left_on=fallback_left_on,
-        right_on=fallback_right_on,
-        how='left',
-        indicator=True
+    # ── Fallback pass (only rows with zero primary matches) ──
+    fallback_matched, still_unmatched, fallback_ambiguous = _join_pass(
+        unmatched_left, fallback_left_on, fallback_right_on
     )
-
-    fallback_matched = second_pass[second_pass['_merge'] == 'both'].drop(columns=['_merge'])
-    still_unmatched = second_pass[second_pass['_merge'] == 'left_only'].drop(columns=['_merge'])
-    still_unmatched = still_unmatched[left_columns].copy()
-
-    logger.info(f"Fallback match: {len(fallback_matched)} rows matched")
+    logger.info(f"Fallback match: {len(fallback_matched)} rows matched uniquely")
+    logger.info(f"Fallback match: {len(fallback_ambiguous)} candidate rows ambiguous")
     logger.info(f"Still unmatched: {len(still_unmatched)} rows")
 
     joined_df = pd.concat([matched_df, fallback_matched], ignore_index=True)
+    ambiguous_df = pd.concat([primary_ambiguous, fallback_ambiguous], ignore_index=True)
 
     logger.info(f"Total matched: {len(joined_df)} rows")
     logger.info(f"Total unmatched: {len(still_unmatched)} rows")
-    return joined_df, still_unmatched
+    logger.info(f"Total ambiguous: {len(ambiguous_df)} candidate rows")
+    return joined_df, still_unmatched, ambiguous_df
 
 
 def filter_select_columns(df: pd.DataFrame, columns: list) -> pd.DataFrame:
@@ -161,6 +179,30 @@ def filter_select_columns(df: pd.DataFrame, columns: list) -> pd.DataFrame:
         logger.warning(f"Columns not found in DataFrame: {missing_columns}")
     logger.info(f"Selecting {len(existing_columns)} columns from {len(df.columns)}")
     return df[existing_columns].copy()
+
+
+def add_column(df1: pd.DataFrame,
+               df2: pd.DataFrame,
+               column: str,
+               df1_on: str,
+               df2_on: str) -> pd.DataFrame:
+    """
+    Add a single column from df2 to df1, aligning rows by matching
+    df1[df1_on] to df2[df2_on]. Rows in df1 with no match get NaN.
+    """
+    if column not in df2.columns:
+        raise KeyError(f"Column '{column}' not found in df2")
+
+    logger.info(f"Adding column '{column}' from df2 to df1 on {df1_on} -> {df2_on}")
+
+    # Map keeps df1's row count fixed and avoids duplicating rows on 1-to-many.
+    lookup = df2.drop_duplicates(subset=df2_on).set_index(df2_on)[column]
+    result = df1.copy()
+    result[column] = result[df1_on].map(lookup)
+
+    matched = result[column].notna().sum()
+    logger.info(f"Matched {matched} of {len(result)} rows")
+    return result
 
 
 def filter_by_match(df1: pd.DataFrame,
@@ -427,7 +469,7 @@ scdbc = merge_dataframes(scdbc1, scdbc2)
 scdbv = merge_dataframes(scdbv1, scdbv2)
 
 # ── 2. Left join scildb_raw with combined scdbc ───────────────────────────────
-scildbc, unmatched = left_join_with_fallback(
+scildbc, unmatched, ambiguous = left_join_with_fallback(
     left_df=scildb_raw,
     right_df=scdbc,
     primary_left_on='citation',
@@ -439,6 +481,10 @@ scildbc, unmatched = left_join_with_fallback(
 if len(unmatched) > 0:
     logger.error(f"{len(unmatched)} cases in scildb_raw were not matched in scdbc")
     unmatched.to_csv('data/unmatched_cases.csv', index=False)
+
+if len(ambiguous) > 0:
+    logger.error(f"{len(ambiguous)} candidate rows had ambiguous (2+) matches in scdbc")
+    ambiguous.to_csv('data/ambiguous_cases.csv', index=False)
 
 # ── 3. Filter to only the columns we need ────────────────────────────────────
 columns_to_keep = [
@@ -458,7 +504,22 @@ scildbc['docket_url'] = ""
 scildbc['cited_cases'] = [[] for _ in range(len(scildbc))]
 scildbc['audio_files'] = [[] for _ in range(len(scildbc))]
 
-# ── 5. Enrich every case in ONE pass with CL urls and cited cases ─────────
+# ── 5. Checkpoint: confirm merges look good before hitting the API ────────
+print("\n──── Merge summary ────")
+print(f"  Matched rows:    {len(scildbc)}")
+print(f"  Unmatched rows:  {len(unmatched)}"
+      + ("  → see data/unmatched_cases.csv" if len(unmatched) > 0 else ""))
+print(f"  Ambiguous rows:  {len(ambiguous)}"
+      + ("  → see data/ambiguous_cases.csv" if len(ambiguous) > 0 else ""))
+if len(unmatched) > 0 or len(ambiguous) > 0:
+    print("  ⚠ Merge issues detected — you may want to fix these before pulling.")
+
+response = input("\nProceed with Court Listener API pull? [y/N]: ").strip().lower()
+if response not in ('y', 'yes'):
+    logger.info("Run stopped by user before API pull.")
+    raise SystemExit(0)
+
+# ── 6. Enrich every case in ONE pass with CL urls and cited cases ─────────
 logger.info("Enriching cases from Court Listener (single pass)...")
 scildbc = scildbc.apply(enrich_case, axis=1)
 
@@ -470,7 +531,7 @@ if missing_cases:
 logger.info(f"API cache size: {len(_api_cache)} unique URLs fetched")
 scildbc.to_csv('data/scildb_enriched2.csv', index=False)
 
-# ── 6. Get brief urls from Internet Archive ──────────────────────────────────
+# ── 7. Get brief urls from Internet Archive ──────────────────────────────────
 logger.info("Fetching Internet Archive brief URLs...")
 citations = scildbc['usCite'].dropna().unique().tolist()
 brief_results = process_citations(citations)
@@ -480,7 +541,7 @@ scildbc['brief_results'] = scildbc['brief_results'].apply(
 )
 scildbc.to_csv('data/scildb_briefs2.csv', index=False)
 
-# ── 7. Filter scdbv to only cases in final scildbc ───────────────────────────
+# ── 8. Filter scdbv to only cases in final scildbc ───────────────────────────
 scildbv = filter_by_match(
     df1=scildbc,
     df2=scdbv,
@@ -489,13 +550,13 @@ scildbv = filter_by_match(
 )
 scildbv = filter_select_columns(scildbv, columns_to_keep)
 
-# ── 8. Apply codebook to both dataframes ─────────────────────────────────────
+# ── 9. Apply codebook to both dataframes ─────────────────────────────────────
 logger.info("Applying codebook labels...")
 scildbc = apply_codebook(df=scildbc, codebook_dir='data/codebook')
 scildbv = apply_codebook(df=scildbv, codebook_dir='data/codebook')
 logger.info("Codebook labels applied.")
 
-# ── 9. Save final files ──────────────────────────────────────────────────────
+# ── 10. Save final files ─────────────────────────────────────────────────────
 scildbc.to_csv('data/scildb_final2.csv', index=False)
 scildbv.to_csv('data/scdbv_filtered2.csv', index=False)
 
