@@ -55,6 +55,11 @@ VOTE_LABELS = {
 
 NATIVE_PARTY_CODE = '170'  # "Indian, including Indian tribe or nation"
 
+# Display-name typo fixes for the site (source lists left untouched)
+NAME_FIXES = {
+    'OK v.TX': 'OK v. TX',
+}
+
 
 def decode(cw: dict, value) -> str | None:
     if value is None:
@@ -78,13 +83,24 @@ def split_list(value) -> list[str]:
     return [part.strip() for part in value.split(',') if part.strip()]
 
 
+def sort_date(date_decision, term) -> int:
+    """YYYYMMDD int from a M/D/YYYY dateDecision, falling back to mid-term."""
+    if date_decision and isinstance(date_decision, str):
+        m = re.match(r'(\d{1,2})/(\d{1,2})/(\d{4})', date_decision.strip())
+        if m:
+            month, day, year = (int(g) for g in m.groups())
+            return year * 10000 + month * 100 + day
+    return (term or 0) * 10000 + 615
+
+
 def disposition(petitioner, respondent, party_winning) -> str:
     """How the Court's disposition fell for the Native party, if there was one."""
-    pet = str(petitioner or '').strip()
-    resp = str(respondent or '').strip()
-    win = str(party_winning or '').strip()
+    # note: values may be ints (manual cases) — 0 is a real code, so no `or ''`
+    pet = ('' if petitioner is None else str(petitioner)).strip()
+    resp = ('' if respondent is None else str(respondent)).strip()
+    win = ('' if party_winning is None else str(party_winning)).strip()
     if NATIVE_PARTY_CODE not in (pet, resp):
-        return 'No coded Native party'
+        return 'No Native party coded'
     if win == '2':
         return 'Unclear'
     if (pet == NATIVE_PARTY_CODE and win == '1') or (resp == NATIVE_PARTY_CODE and win == '0'):
@@ -136,12 +152,14 @@ for c in raw_cases:
     ]
 
     name = c.get('listName') or c.get('caseName') or ''
+    name = NAME_FIXES.get(name, name)
     cases_out.append({
         'id': cid,
         'name': name,
         'usCite': c.get('usCite') or c.get('Citation'),
         'term': term,
         'dateDecision': c.get('dateDecision'),
+        'sortDate': sort_date(c.get('dateDecision'), term),
         'dateArgument': c.get('dateArgument'),
         'categories': split_list(c.get('finalCategories')),
         'tribes': split_list(c.get('tribesInvolved')),
@@ -165,7 +183,52 @@ for c in raw_cases:
         'citedCount': len(c.get('cited_cases') or []),
     })
 
-cases_out.sort(key=lambda x: (x['term'] or 0, x['id']))
+# ── Merge manually-added cases (not in SCDB; see data/manual_cases.json) ─────
+# Records carry SCDB-style numeric codes assigned by the research team; decode
+# them through the same codebook crosswalks as pipeline cases.
+
+MANUAL_PATH = os.path.join('data', 'manual_cases.json')
+if os.path.exists(MANUAL_PATH):
+    with open(MANUAL_PATH, encoding='utf-8') as f:
+        manual = json.load(f)
+    for m in manual:
+        if m['id'] in seen_ids:
+            continue
+        seen_ids.add(m['id'])
+        term = to_int(m.get('term'))
+        cases_out.append({
+            'id': m['id'],
+            'name': NAME_FIXES.get(m['name'], m['name']),
+            'usCite': m.get('usCite'),
+            'term': term,
+            'dateDecision': m.get('dateDecision'),
+            'sortDate': sort_date(m.get('dateDecision'), term),
+            'dateArgument': m.get('dateArgument'),
+            'categories': m.get('categories', []),
+            'tribes': m.get('tribes', []),
+            'petitioner': decode(petitioner_cw, m.get('petitioner')),
+            'respondent': decode(respondent_cw, m.get('respondent')),
+            'partyWinning': decode(party_winning_cw, m.get('partyWinning')),
+            'disposition': disposition(m.get('petitioner'), m.get('respondent'), m.get('partyWinning')),
+            'issue': decode(issue_cw, m.get('issue')),
+            'decisionType': decode(decision_type_cw, m.get('decisionType')),
+            'caseOrigin': decode(case_origin_cw, m.get('caseOrigin')),
+            'caseOriginState': m.get('caseOriginState'),
+            'caseSource': decode(case_source_cw, m.get('caseSource')),
+            'certReason': decode(cert_reason_cw, m.get('certReason')),
+            'chief': m.get('chief'),
+            'majOpinWriter': m.get('majOpinWriter'),
+            'majVotes': to_int(m.get('majVotes')),
+            'minVotes': to_int(m.get('minVotes')),
+            'precedentAlteration': bool(m.get('precedentAlteration')),
+            'url': m.get('url'),
+            'briefs': m.get('briefs', []),
+            'citedCount': to_int(m.get('citedCount')) or 0,
+        })
+
+# Order by the full decision date, not just the term year, so cases decided in
+# the same term appear in true chronological sequence.
+cases_out.sort(key=lambda x: (x['sortDate'], x['id']))
 
 # ── Build votes.json (compact keys, deduped per caseId+justice) ────────────────
 

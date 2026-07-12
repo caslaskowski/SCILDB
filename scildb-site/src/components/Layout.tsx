@@ -37,6 +37,9 @@ export default function Layout({ children }: { children: ReactNode }) {
   const route = useRoute()
   return (
     <div className="flex min-h-svh flex-col">
+      <a href="#main" className="skip-link">
+        Skip to main content
+      </a>
       <header className="sticky top-0 z-40 border-b border-hairline bg-page/95 backdrop-blur">
         <div className="mx-auto flex h-14 w-full max-w-6xl items-center gap-6 px-4 sm:px-6">
           <a href={href('/')} className="flex items-baseline gap-2 no-underline">
@@ -63,7 +66,9 @@ export default function Layout({ children }: { children: ReactNode }) {
         </div>
       </header>
 
-      <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8 sm:px-6">{children}</main>
+      <main id="main" className="mx-auto w-full max-w-6xl flex-1 px-4 py-8 sm:px-6">
+        {children}
+      </main>
 
       <footer className="border-t border-hairline">
         <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-6 text-xs text-ink3 sm:px-6">

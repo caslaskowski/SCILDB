@@ -42,7 +42,7 @@ export function decadeOf(term: number): number {
   return Math.floor(term / 10) * 10
 }
 
-export const DISPOSITIONS = ['Favorable', 'Unfavorable', 'Unclear', 'No coded Native party'] as const
+export const DISPOSITIONS = ['Favorable', 'Unfavorable', 'Unclear', 'No Native party coded'] as const
 
 /**
  * Whether this vote sided with the Native party's position, judged by the

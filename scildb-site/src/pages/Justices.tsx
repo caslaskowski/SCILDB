@@ -1,6 +1,6 @@
 import Papa from 'papaparse'
 import { useMemo, useState } from 'react'
-import { ChartCard, DivergingBars, StatTile } from '../components/charts'
+import { ChartCard, DivergingBars, HBarList, StatTile } from '../components/charts'
 import { FilterBar, MultiSelect, SearchBox, YearRange } from '../components/filters'
 import { formatNumber, useDataset, voteAlignment, voteShortLabel } from '../lib/data'
 import type { Case, VoteRec } from '../types'
@@ -147,8 +147,20 @@ export default function Justices() {
       .filter((v) => v.j === selected && scopedCaseIds.has(v.c))
       .map((v) => ({ vote: v, kase: caseMap.get(v.c) }))
       .filter((x): x is { vote: VoteRec; kase: Case } => x.kase != null)
-      .sort((a, b) => (a.kase.term ?? 0) - (b.kase.term ?? 0))
+      .sort((a, b) => a.kase.sortDate - b.kase.sortDate)
   }, [data, selected, scopedCaseIds, caseMap])
+
+  // Categories across the selected justice's cases; redundant (and hidden)
+  // when the view is already filtered to a single category.
+  const selectedCategories = useMemo(() => {
+    const counts = new Map<string, number>()
+    for (const { kase } of selectedVotes)
+      for (const cat of kase.categories) counts.set(cat, (counts.get(cat) ?? 0) + 1)
+    return [...counts.entries()]
+      .map(([label, value]) => ({ label, value }))
+      .sort((a, b) => b.value - a.value)
+      .slice(0, 10)
+  }, [selectedVotes])
 
   const filtersActive = search !== '' || categories.length > 0 || yearFrom !== 1810 || yearTo !== 2023
 
@@ -184,7 +196,10 @@ export default function Justices() {
   if (!data) return <p className="py-16 text-center text-sm text-ink3">Loading the database…</p>
 
   const th = (label: string, col: SortCol, extra = '') => (
-    <th className={`px-2 py-2 font-medium whitespace-nowrap ${extra}`}>
+    <th
+      className={`px-2 py-2 font-medium whitespace-nowrap ${extra}`}
+      aria-sort={sortCol === col ? (sortDir === 1 ? 'ascending' : 'descending') : 'none'}
+    >
       <button type="button" onClick={() => toggleSort(col)} className="cursor-pointer uppercase hover:text-ink">
         {label} {sortCol === col ? (sortDir === 1 ? '↑' : '↓') : ''}
       </button>
@@ -216,7 +231,7 @@ export default function Justices() {
         <SearchBox label="Search justice" value={search} onChange={setSearch} placeholder="e.g. Marshall" width="w-56" />
         <MultiSelect label="Case categories" options={allCategories} selected={categories} onChange={setCategories} />
         <YearRange
-          label="Case terms"
+          label="Court term"
           min={data.meta.termMin}
           max={data.meta.termMax}
           from={yearFrom}
@@ -267,6 +282,14 @@ export default function Justices() {
             <StatTile label="Opinions written" value={formatNumber(selectedStats.opinions)} />
             <StatTile label="Majority opinions" value={formatNumber(selectedStats.majOpinions)} />
           </div>
+          {categories.length !== 1 && selectedCategories.length > 0 && (
+            <div className="mt-4">
+              <h3 className="mb-1.5 text-xs font-semibold text-ink">
+                Categories of the cases {selectedStats.fullName} voted on
+              </h3>
+              <HBarList items={selectedCategories} />
+            </div>
+          )}
           <div className="mt-4 max-h-96 overflow-auto rounded-md border border-hairline">
             <table className="w-full border-collapse text-left text-sm">
               <thead className="sticky top-0 bg-surface">
@@ -353,8 +376,19 @@ export default function Justices() {
                     }`}
                   >
                     <td className="py-2 pr-2 pl-4">
-                      <p className="font-medium text-ink">{s.fullName}</p>
-                      <p className="text-xs text-ink3">{s.yearsCourt}</p>
+                      <button
+                        type="button"
+                        aria-expanded={selected === s.justiceName}
+                        aria-label={`${selected === s.justiceName ? 'Close' : 'Show'} full record for ${s.fullName}`}
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          setSelected(s.justiceName === selected ? null : s.justiceName)
+                        }}
+                        className="cursor-pointer text-left"
+                      >
+                        <span className="block font-medium text-ink">{s.fullName}</span>
+                        <span className="block text-xs text-ink3">{s.yearsCourt}</span>
+                      </button>
                     </td>
                     <td className="px-2 py-2 text-ink2 tabular-nums">{formatNumber(s.cases)}</td>
                     <td className="px-2 py-2 text-ink2 tabular-nums">

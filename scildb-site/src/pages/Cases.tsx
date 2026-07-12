@@ -2,8 +2,25 @@ import Papa from 'papaparse'
 import { Fragment, useMemo, useState } from 'react'
 import { ChartCard, DecadeColumns, HBarList, StatTile } from '../components/charts'
 import { FilterBar, MultiSelect, SearchBox, SelectBox, YearRange } from '../components/filters'
+import OriginMap from '../components/OriginMap'
 import { decadeOf, DISPOSITIONS, formatNumber, useDataset } from '../lib/data'
+import { STATE_NAMES } from '../lib/usStates'
 import type { Case, Disposition } from '../types'
+
+// full state name -> two-letter code, longest names first so "West Virginia"
+// matches before "Virginia" when scanning court names
+const NAME_TO_CODE = Object.fromEntries(Object.entries(STATE_NAMES).map(([code, name]) => [name, code]))
+const NAMES_BY_LENGTH = Object.keys(NAME_TO_CODE).sort((a, b) => b.length - a.length)
+
+function originState(kase: Case): string | null {
+  if (kase.caseOriginState && NAME_TO_CODE[kase.caseOriginState]) return NAME_TO_CODE[kase.caseOriginState]
+  if (kase.caseOrigin) {
+    for (const name of NAMES_BY_LENGTH) {
+      if (kase.caseOrigin.includes(name)) return NAME_TO_CODE[name]
+    }
+  }
+  return null
+}
 
 const PAGE_SIZE = 25
 
@@ -11,11 +28,11 @@ const DISPOSITION_COLOR: Record<Disposition, string> = {
   Favorable: 'var(--viz-pos)',
   Unfavorable: 'var(--viz-neg)',
   Unclear: 'var(--viz-mid)',
-  'No coded Native party': 'var(--viz-mid)',
+  'No Native party coded': 'var(--viz-mid)',
 }
 
 function DispositionBadge({ disposition }: { disposition: Disposition }) {
-  const short = disposition === 'No coded Native party' ? 'No coded party' : disposition
+  const short = disposition
   return (
     <span className="inline-flex items-center gap-1.5 text-xs text-ink2" title={`Disposition for the Native party: ${disposition}`}>
       <span
@@ -38,7 +55,7 @@ function DetailRow({ label, children }: { label: string; children: React.ReactNo
   )
 }
 
-function CaseDetail({ kase }: { kase: Case }) {
+function CaseDetail({ kase, onCategory }: { kase: Case; onCategory: (category: string) => void }) {
   return (
     <div className="grid gap-x-8 gap-y-3 border-t border-hairline bg-page/60 px-4 py-4 sm:grid-cols-2 lg:grid-cols-3">
       <DetailRow label="Petitioner">{kase.petitioner}</DetailRow>
@@ -65,9 +82,15 @@ function CaseDetail({ kase }: { kase: Case }) {
         <dt className="text-[11px] font-medium text-ink3">Categories</dt>
         <dd className="m-0 mt-1 flex flex-wrap gap-1.5">
           {kase.categories.map((cat) => (
-            <span key={cat} className="rounded-full border border-hairline bg-surface px-2 py-0.5 text-xs text-ink2">
+            <button
+              key={cat}
+              type="button"
+              onClick={() => onCategory(cat)}
+              aria-label={`Search all cases in the category ${cat}`}
+              className="cursor-pointer rounded-full border border-hairline bg-surface px-2.5 py-0.5 text-xs font-semibold text-ink hover:border-accent hover:bg-accent-wash hover:text-accent-strong"
+            >
               {cat}
-            </span>
+            </button>
           ))}
         </dd>
       </div>
@@ -77,12 +100,14 @@ function CaseDetail({ kase }: { kase: Case }) {
           <dd className="m-0 mt-1 flex flex-wrap gap-x-5 gap-y-1 text-sm">
             {kase.url && (
               <a href={kase.url} target="_blank" rel="noreferrer" className="text-accent hover:underline">
-                Opinion on CourtListener ↗
+                Read {kase.name}
+                {kase.usCite ? `, ${kase.usCite}` : ''} on CourtListener ↗
               </a>
             )}
-            {kase.briefs.slice(0, 4).map((brief) => (
+            {kase.briefs.slice(0, 4).map((brief, i) => (
               <a key={brief.url} href={brief.url} target="_blank" rel="noreferrer" className="text-accent hover:underline">
-                Briefs & record (Internet Archive) ↗
+                Briefs & record for {kase.usCite ?? kase.name}
+                {kase.briefs.length > 1 ? ` (set ${i + 1})` : ''} on the Internet Archive ↗
               </a>
             ))}
           </dd>
@@ -141,7 +166,8 @@ export default function Cases() {
   const sorted = useMemo(() => {
     const copy = [...filtered]
     copy.sort((a, b) => {
-      if (sortKey === 'term') return ((a.term ?? 0) - (b.term ?? 0)) * sortDir
+      // "Term" sorts by the full decision date so same-term cases stay chronological
+      if (sortKey === 'term') return (a.sortDate - b.sortDate) * sortDir
       return a.name.localeCompare(b.name) * sortDir
     })
     return copy
@@ -183,6 +209,24 @@ export default function Cases() {
     const counts: Record<string, number> = {}
     for (const c of filtered) counts[c.disposition] = (counts[c.disposition] ?? 0) + 1
     return counts
+  }, [filtered])
+
+  const origins = useMemo(() => {
+    const byState = new Map<string, number>()
+    const other = new Map<string, number>()
+    for (const c of filtered) {
+      const code = originState(c)
+      if (code) byState.set(code, (byState.get(code) ?? 0) + 1)
+      else other.set(c.caseOrigin ?? 'Origin not recorded', (other.get(c.caseOrigin ?? 'Origin not recorded') ?? 0) + 1)
+    }
+    return {
+      points: [...byState.entries()].map(([code, count]) => ({ code, count })),
+      other: [...other.entries()].map(([label, value]) => ({ label, value })).sort((a, b) => b.value - a.value),
+      topStates: [...byState.entries()]
+        .map(([code, value]) => ({ label: STATE_NAMES[code], value }))
+        .sort((a, b) => b.value - a.value)
+        .slice(0, 8),
+    }
   }, [filtered])
 
   const filtersActive =
@@ -274,7 +318,7 @@ export default function Cases() {
         />
         <SelectBox label="Chief Justice era" value={chief} onChange={setFilter(setChief)} options={allChiefs} />
         <YearRange
-          label="Term"
+          label="Court term"
           min={data.meta.termMin}
           max={data.meta.termMax}
           from={yearFrom}
@@ -292,8 +336,8 @@ export default function Cases() {
         <StatTile label="Favorable to Native party" value={formatNumber(dispositionCounts['Favorable'] ?? 0)} />
         <StatTile label="Unfavorable" value={formatNumber(dispositionCounts['Unfavorable'] ?? 0)} />
         <StatTile
-          label="No coded Native party"
-          value={formatNumber((dispositionCounts['No coded Native party'] ?? 0) + (dispositionCounts['Unclear'] ?? 0))}
+          label="No Native party coded"
+          value={formatNumber((dispositionCounts['No Native party coded'] ?? 0) + (dispositionCounts['Unclear'] ?? 0))}
           detail="incl. unclear dispositions"
         />
       </div>
@@ -305,7 +349,7 @@ export default function Cases() {
           legend={[
             { label: 'Favorable', color: 'var(--viz-pos)' },
             { label: 'Unfavorable', color: 'var(--viz-neg)' },
-            { label: 'No coded party / unclear', color: 'var(--viz-mid)' },
+            { label: 'No Native party coded / unclear', color: 'var(--viz-mid)' },
           ]}
         >
           <DecadeColumns
@@ -313,7 +357,7 @@ export default function Cases() {
             series={[
               { key: 'Favorable', label: 'Favorable', color: 'var(--viz-pos)' },
               { key: 'Unfavorable', label: 'Unfavorable', color: 'var(--viz-neg)' },
-              { key: 'other', label: 'No coded party / unclear', color: 'var(--viz-mid)' },
+              { key: 'other', label: 'No Native party coded / unclear', color: 'var(--viz-mid)' },
             ]}
           />
         </ChartCard>
@@ -325,6 +369,43 @@ export default function Cases() {
               setPage(0)
             }}
           />
+        </ChartCard>
+      </div>
+
+      <div className="mt-4">
+        <ChartCard
+          title="Where the cases began"
+          subtitle="Circle area is proportional to the number of matching cases originating in each state's courts (state and federal)"
+        >
+          <div className="grid gap-6 lg:grid-cols-[2fr_1fr]">
+            <OriginMap points={origins.points} />
+            <div className="flex flex-col gap-4">
+              <div>
+                <h4 className="mb-1.5 text-xs font-semibold text-ink">Top states</h4>
+                <HBarList items={origins.topStates} />
+              </div>
+              {origins.other.length > 0 && (
+                <div>
+                  <h4 className="mb-1.5 text-xs font-semibold text-ink">Other courts (not on the map)</h4>
+                  <ul className="flex flex-col gap-0.5 text-xs text-ink2">
+                    {origins.other.slice(0, 8).map((o) => (
+                      <li key={o.label} className="flex justify-between gap-2">
+                        <span className="truncate" title={o.label}>
+                          {o.label}
+                        </span>
+                        <span className="font-medium text-ink tabular-nums">{formatNumber(o.value)}</span>
+                      </li>
+                    ))}
+                    {origins.other.length > 8 && (
+                      <li className="text-ink3">
+                        + {origins.other.length - 8} more origin{origins.other.length - 8 === 1 ? '' : 's'}
+                      </li>
+                    )}
+                  </ul>
+                </div>
+              )}
+            </div>
+          </div>
         </ChartCard>
       </div>
 
@@ -345,14 +426,20 @@ export default function Cases() {
           <table className="w-full border-collapse text-left text-sm">
             <thead>
               <tr className="border-b border-hairline text-[11px] text-ink3 uppercase">
-                <th className="px-4 py-2 font-medium">
+                <th
+                  className="px-4 py-2 font-medium"
+                  aria-sort={sortKey === 'name' ? (sortDir === 1 ? 'ascending' : 'descending') : 'none'}
+                >
                   <button type="button" onClick={() => toggleSort('name')} className="cursor-pointer uppercase hover:text-ink">
                     Case {sortKey === 'name' ? (sortDir === 1 ? '↑' : '↓') : ''}
                   </button>
                 </th>
-                <th className="px-2 py-2 font-medium whitespace-nowrap">
+                <th
+                  className="px-2 py-2 font-medium whitespace-nowrap"
+                  aria-sort={sortKey === 'term' ? (sortDir === 1 ? 'ascending' : 'descending') : 'none'}
+                >
                   <button type="button" onClick={() => toggleSort('term')} className="cursor-pointer uppercase hover:text-ink">
-                    Term {sortKey === 'term' ? (sortDir === 1 ? '↑' : '↓') : ''}
+                    Court term {sortKey === 'term' ? (sortDir === 1 ? '↑' : '↓') : ''}
                   </button>
                 </th>
                 <th className="hidden px-2 py-2 font-medium md:table-cell">Categories</th>
@@ -378,12 +465,32 @@ export default function Cases() {
                     <td className="px-2 py-2.5">
                       <DispositionBadge disposition={c.disposition} />
                     </td>
-                    <td className="px-2 py-2.5 text-center text-ink3">{expanded === c.id ? '−' : '+'}</td>
+                    <td className="px-2 py-2.5 text-center">
+                      <button
+                        type="button"
+                        aria-expanded={expanded === c.id}
+                        aria-label={`${expanded === c.id ? 'Collapse' : 'Expand'} details for ${c.name}`}
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          setExpanded(expanded === c.id ? null : c.id)
+                        }}
+                        className="h-6 w-6 cursor-pointer rounded border border-hairline text-ink3 hover:bg-accent-wash hover:text-ink"
+                      >
+                        {expanded === c.id ? '−' : '+'}
+                      </button>
+                    </td>
                   </tr>
                   {expanded === c.id && (
                     <tr className="border-b border-hairline last:border-b-0">
                       <td colSpan={5} className="p-0">
-                        <CaseDetail kase={c} />
+                        <CaseDetail
+                          kase={c}
+                          onCategory={(cat) => {
+                            setCategories([cat])
+                            setPage(0)
+                            window.scrollTo({ top: 0 })
+                          }}
+                        />
                       </td>
                     </tr>
                   )}

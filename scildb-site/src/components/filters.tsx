@@ -133,6 +133,7 @@ export function MultiSelect({
         type="button"
         onClick={() => setOpen((o) => !o)}
         aria-expanded={open}
+        aria-haspopup="listbox"
         className={`${controlClass} flex w-52 cursor-pointer items-center justify-between gap-2 text-left`}
       >
         <span className={`truncate ${selected.length === 0 ? 'text-ink3' : ''}`}>{summary}</span>
@@ -160,7 +161,7 @@ export function MultiSelect({
                 type="checkbox"
                 checked={selected.includes(option)}
                 onChange={() => toggle(option)}
-                className="accent-(--accent)"
+                className="accent-accent"
               />
               <span className="truncate">{option}</span>
             </label>

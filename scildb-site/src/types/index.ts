@@ -3,7 +3,7 @@ export interface Brief {
   url: string
 }
 
-export type Disposition = 'Favorable' | 'Unfavorable' | 'Unclear' | 'No coded Native party'
+export type Disposition = 'Favorable' | 'Unfavorable' | 'Unclear' | 'No Native party coded'
 
 export interface Case {
   id: string
@@ -11,6 +11,8 @@ export interface Case {
   usCite: string | null
   term: number | null
   dateDecision: string | null
+  /** YYYYMMDD int for chronological sorting by full decision date. */
+  sortDate: number
   dateArgument: string | null
   categories: string[]
   tribes: string[]
