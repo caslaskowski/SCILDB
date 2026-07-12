@@ -213,14 +213,26 @@ export default function Cases() {
 
   const origins = useMemo(() => {
     const byState = new Map<string, number>()
+    const courtsByState = new Map<string, Map<string, number>>()
     const other = new Map<string, number>()
     for (const c of filtered) {
       const code = originState(c)
-      if (code) byState.set(code, (byState.get(code) ?? 0) + 1)
-      else other.set(c.caseOrigin ?? 'Origin not recorded', (other.get(c.caseOrigin ?? 'Origin not recorded') ?? 0) + 1)
+      if (code) {
+        byState.set(code, (byState.get(code) ?? 0) + 1)
+        const court = c.caseOrigin ?? 'Court not recorded'
+        const courts = courtsByState.get(code) ?? new Map<string, number>()
+        courts.set(court, (courts.get(court) ?? 0) + 1)
+        courtsByState.set(code, courts)
+      } else other.set(c.caseOrigin ?? 'Origin not recorded', (other.get(c.caseOrigin ?? 'Origin not recorded') ?? 0) + 1)
     }
     return {
-      points: [...byState.entries()].map(([code, count]) => ({ code, count })),
+      points: [...byState.entries()].map(([code, count]) => ({
+        code,
+        count,
+        courts: [...(courtsByState.get(code) ?? new Map<string, number>()).entries()]
+          .map(([label, count]) => ({ label, count }))
+          .sort((a, b) => b.count - a.count),
+      })),
       other: [...other.entries()].map(([label, value]) => ({ label, value })).sort((a, b) => b.value - a.value),
       topStates: [...byState.entries()]
         .map(([code, value]) => ({ label: STATE_NAMES[code], value }))
