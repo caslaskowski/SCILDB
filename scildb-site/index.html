@@ -4,7 +4,24 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>scildb-site</title>
+    <meta
+      name="description"
+      content="The Supreme Court Indian Law Database (SCILDB) — a searchable, filterable repository of every federal Indian law case decided by the U.S. Supreme Court, with justice-level voting records and visualizations."
+    />
+    <title>SCILDB — Supreme Court Indian Law Database</title>
+    <script>
+      // Resolve theme before first paint to avoid a flash of the wrong mode.
+      ;(function () {
+        var stored = localStorage.getItem('scildb-theme')
+        var theme =
+          stored === 'light' || stored === 'dark'
+            ? stored
+            : window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light'
+        document.documentElement.dataset.theme = theme
+      })()
+    </script>
   </head>
   <body>
     <div id="root"></div>
