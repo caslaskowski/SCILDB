@@ -7,11 +7,8 @@ const NAV: { route: Route; label: string }[] = [
   { route: '/cases', label: 'Cases' },
   { route: '/justices', label: 'Justices' },
   { route: '/about', label: 'About' },
-<<<<<<< HEAD
   { route: '/methodology', label: 'Methodology' },
   { route: '/contributors', label: 'Contributors' },
-=======
->>>>>>> 0f4abf6a32924ee241d819fa63d5487cc3c56e2b
 ]
 
 function ThemeToggle() {
@@ -22,11 +19,7 @@ function ThemeToggle() {
       onClick={toggle}
       aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
       title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-<<<<<<< HEAD
       className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-hairline text-ink2 hover:bg-accent-wash"
-=======
-      className="flex h-8 w-8 items-center justify-center rounded-md border border-hairline text-ink2 hover:bg-accent-wash"
->>>>>>> 0f4abf6a32924ee241d819fa63d5487cc3c56e2b
     >
       {theme === 'dark' ? (
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
@@ -50,31 +43,18 @@ export default function Layout({ children }: { children: ReactNode }) {
         Skip to main content
       </a>
       <header className="sticky top-0 z-40 border-b border-hairline bg-page/95 backdrop-blur">
-<<<<<<< HEAD
         <div className="mx-auto flex h-14 w-full max-w-6xl items-center gap-4 px-4 sm:px-6">
           <a href={href('/')} className="flex shrink-0 items-baseline gap-2 no-underline">
             <span className="font-serif text-lg font-semibold tracking-tight text-ink">SCILDB</span>
             <span className="hidden text-xs text-ink3 lg:inline">Supreme Court Indian Law Database</span>
           </a>
           <nav className="ml-auto flex items-center gap-1 overflow-x-auto" aria-label="Site">
-=======
-        <div className="mx-auto flex h-14 w-full max-w-6xl items-center gap-6 px-4 sm:px-6">
-          <a href={href('/')} className="flex items-baseline gap-2 no-underline">
-            <span className="font-serif text-lg font-semibold tracking-tight text-ink">SCILDB</span>
-            <span className="hidden text-xs text-ink3 sm:inline">Supreme Court Indian Law Database</span>
-          </a>
-          <nav className="ml-auto flex items-center gap-1">
->>>>>>> 0f4abf6a32924ee241d819fa63d5487cc3c56e2b
             {NAV.map((item) => (
               <a
                 key={item.route}
                 href={href(item.route)}
                 aria-current={route === item.route ? 'page' : undefined}
-<<<<<<< HEAD
                 className={`rounded-md px-2.5 py-1.5 text-sm whitespace-nowrap no-underline ${
-=======
-                className={`rounded-md px-3 py-1.5 text-sm no-underline ${
->>>>>>> 0f4abf6a32924ee241d819fa63d5487cc3c56e2b
                   route === item.route
                     ? 'bg-accent-wash font-medium text-accent-strong'
                     : 'text-ink2 hover:bg-accent-wash hover:text-ink'
