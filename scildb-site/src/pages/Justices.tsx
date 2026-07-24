@@ -1,5 +1,6 @@
 import Papa from 'papaparse'
-import { useMemo, useState } from 'react'
+import { Fragment, useMemo, useState } from 'react'
+import CaseDetail from '../components/CaseDetail'
 import { HBarList, StatTile } from '../components/charts'
 import { FilterBar, MultiSelect, SearchBox, YearRange } from '../components/filters'
 import {
@@ -10,6 +11,7 @@ import {
   useDataset,
   voteShortLabel,
 } from '../lib/data'
+import { getHashQuery } from '../lib/router'
 import type { Case, Dataset, VoteRec } from '../types'
 
 interface JusticeStats {
@@ -35,14 +37,31 @@ export default function Justices() {
 }
 
 function JusticesView({ data }: { data: Dataset }) {
-  const [search, setSearch] = useState('')
+  // Seeded from the URL hash, e.g. "#/justices?j=JHarlan1" from the home-page
+  // top-10 chart: filters the table to that justice and opens their record.
+  const [initialQuery] = useState(getHashQuery)
+  const initialJustice = useMemo(() => {
+    const j = initialQuery.get('j')
+    return j && data.justices.some((x) => x.justiceName === j) ? j : null
+  }, [initialQuery, data])
+
+  const [search, setSearch] = useState(() => {
+    if (!initialJustice) return ''
+    return data.justices.find((x) => x.justiceName === initialJustice)?.fullName ?? ''
+  })
   const [categories, setCategories] = useState<string[]>([])
   const [authorLabels, setAuthorLabels] = useState<string[]>([])
   const [yearFrom, setYearFrom] = useState(data.yearMin)
   const [yearTo, setYearTo] = useState(data.yearMax)
   const [sortCol, setSortCol] = useState<SortCol>('appointed')
   const [sortDir, setSortDir] = useState<1 | -1>(1)
-  const [selected, setSelected] = useState<string | null>(null)
+  const [selected, setSelected] = useState<string | null>(initialJustice)
+  const [expandedCase, setExpandedCase] = useState<string | null>(null)
+
+  const selectJustice = (justiceName: string | null) => {
+    setSelected(justiceName)
+    setExpandedCase(null)
+  }
 
   const allCategories = useMemo(() => {
     const set = new Set<string>()
@@ -89,6 +108,7 @@ function JusticesView({ data }: { data: Dataset }) {
     return {
       labels: rows.map((r) => r.label),
       byLabel: new Map(rows.map((r) => [r.label, r.justiceName])),
+      byJustice: new Map(rows.map((r) => [r.justiceName, r.label])),
     }
   }, [data, opinionAuthorsByCase])
 
@@ -197,6 +217,9 @@ function JusticesView({ data }: { data: Dataset }) {
       .slice(0, 10)
   }, [selectedVotes])
 
+  /** The author-filter label for the selected justice, if they authored any opinions. */
+  const selectedAuthorLabel = selected ? (authorOptions.byJustice.get(selected) ?? null) : null
+
   const filtersActive =
     search !== '' || categories.length > 0 || authorLabels.length > 0 || yearFrom !== data.yearMin || yearTo !== data.yearMax
 
@@ -297,7 +320,7 @@ function JusticesView({ data }: { data: Dataset }) {
             </div>
             <button
               type="button"
-              onClick={() => setSelected(null)}
+              onClick={() => selectJustice(null)}
               className="cursor-pointer rounded-md border border-hairline px-2.5 py-1 text-xs text-ink2 hover:bg-accent-wash"
             >
               Close
@@ -311,41 +334,96 @@ function JusticesView({ data }: { data: Dataset }) {
               detail={`${formatNumber(selectedStats.inMajority)} votes`}
             />
             <StatTile label="Dissents" value={formatNumber(selectedStats.dissents)} />
-            <StatTile label="Opinions written" value={formatNumber(selectedStats.opinions)} />
+            <StatTile
+              label="Opinions written"
+              value={formatNumber(selectedStats.opinions)}
+              detail={selectedAuthorLabel ? 'click to filter to these cases' : undefined}
+              title={
+                selectedAuthorLabel
+                  ? `Set the "Opinion authored by" filter to ${selectedStats.fullName}`
+                  : undefined
+              }
+              onClick={
+                selectedAuthorLabel
+                  ? () => setAuthorLabels([selectedAuthorLabel])
+                  : undefined
+              }
+            />
             <StatTile label="Majority opinions" value={formatNumber(selectedStats.majOpinions)} />
           </div>
           {categories.length !== 1 && selectedCategories.length > 0 && (
             <div className="mt-4">
               <h3 className="mb-1.5 text-xs font-semibold text-ink">
-                Categories of the cases {selectedStats.fullName} voted on
+                Categories of the cases {selectedStats.fullName} voted on — click a category to filter
               </h3>
-              <HBarList items={selectedCategories} />
+              <HBarList
+                items={selectedCategories}
+                onClickItem={(label) => {
+                  if (!categories.includes(label)) setCategories([...categories, label])
+                }}
+              />
             </div>
           )}
           <div className="mt-4 max-h-96 overflow-auto rounded-md border border-hairline">
             <table className="w-full border-collapse text-left text-sm">
-              <thead className="sticky top-0 bg-surface">
+              <thead className="sticky top-0 z-10 bg-surface">
                 <tr className="border-b border-hairline text-[11px] text-ink3 uppercase">
-                  <th className="px-3 py-2 font-medium">Case</th>
-                  <th className="px-2 py-2 font-medium" title="Year the decision was issued">
+                  <th className="px-3 py-2 font-medium" scope="col">
+                    Case
+                  </th>
+                  <th className="px-2 py-2 font-medium" scope="col" title="Year the decision was issued">
                     Decided
                   </th>
-                  <th className="px-2 py-2 font-medium">Vote</th>
+                  <th className="px-2 py-2 font-medium" scope="col">
+                    Vote
+                  </th>
+                  <th className="w-8 px-2 py-2" aria-label="Expand" scope="col" />
                 </tr>
               </thead>
               <tbody>
                 {selectedVotes.map(({ vote, kase }) => (
-                  <tr key={kase.id} className="border-b border-hairline last:border-b-0">
-                    <td className="px-3 py-1.5">
-                      <p className="text-ink">{kase.name}</p>
-                      <p className="text-xs text-ink3">{kase.usCite}</p>
-                    </td>
-                    <td className="px-2 py-1.5 text-ink2 tabular-nums">{decisionYear(kase)}</td>
-                    <td className="px-2 py-1.5 text-xs text-ink2">
-                      {voteShortLabel(vote.v)}
-                      {vote.w === 1 ? ' · wrote the opinion' : (vote.o === 2 || vote.o === 3) ? ' · wrote an opinion' : ''}
-                    </td>
-                  </tr>
+                  <Fragment key={kase.id}>
+                    <tr
+                      onClick={() => setExpandedCase(expandedCase === kase.id ? null : kase.id)}
+                      className="cursor-pointer border-b border-hairline last:border-b-0 hover:bg-accent-wash"
+                    >
+                      <td className="px-3 py-1.5">
+                        <p className="text-ink">{kase.name}</p>
+                        <p className="text-xs text-ink3">{kase.usCite}</p>
+                      </td>
+                      <td className="px-2 py-1.5 align-top text-ink2 tabular-nums">{decisionYear(kase)}</td>
+                      <td className="px-2 py-1.5 align-top text-xs text-ink2">
+                        {voteShortLabel(vote.v)}
+                        {vote.w === 1 ? ' · wrote the opinion' : (vote.o === 2 || vote.o === 3) ? ' · wrote an opinion' : ''}
+                      </td>
+                      <td className="px-2 py-1.5 text-center align-top">
+                        <button
+                          type="button"
+                          aria-expanded={expandedCase === kase.id}
+                          aria-label={`${expandedCase === kase.id ? 'Collapse' : 'Expand'} details for ${kase.name}`}
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            setExpandedCase(expandedCase === kase.id ? null : kase.id)
+                          }}
+                          className="h-6 w-6 cursor-pointer rounded border border-hairline text-ink3 hover:bg-accent-wash hover:text-ink"
+                        >
+                          {expandedCase === kase.id ? '−' : '+'}
+                        </button>
+                      </td>
+                    </tr>
+                    {expandedCase === kase.id && (
+                      <tr className="border-b border-hairline last:border-b-0">
+                        <td colSpan={4} className="p-0">
+                          <CaseDetail
+                            kase={kase}
+                            onCategory={(cat) => {
+                              if (!categories.includes(cat)) setCategories([...categories, cat])
+                            }}
+                          />
+                        </td>
+                      </tr>
+                    )}
+                  </Fragment>
                 ))}
               </tbody>
             </table>
@@ -384,7 +462,7 @@ function JusticesView({ data }: { data: Dataset }) {
               {visible.map((s) => (
                 <tr
                   key={s.justiceName}
-                  onClick={() => setSelected(s.justiceName === selected ? null : s.justiceName)}
+                  onClick={() => selectJustice(s.justiceName === selected ? null : s.justiceName)}
                   className={`cursor-pointer border-b border-hairline last:border-b-0 hover:bg-accent-wash ${
                     selected === s.justiceName ? 'bg-accent-wash' : ''
                   }`}
@@ -396,7 +474,7 @@ function JusticesView({ data }: { data: Dataset }) {
                       aria-label={`${selected === s.justiceName ? 'Close' : 'Show'} full record for ${s.fullName}`}
                       onClick={(e) => {
                         e.stopPropagation()
-                        setSelected(s.justiceName === selected ? null : s.justiceName)
+                        selectJustice(s.justiceName === selected ? null : s.justiceName)
                       }}
                       className="cursor-pointer text-left"
                     >

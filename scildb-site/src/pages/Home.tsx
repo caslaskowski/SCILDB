@@ -25,7 +25,7 @@ export default function Home() {
   }, [data])
 
   const topJustices = useMemo(() => {
-    if (!data) return { participated: [], authored: [] }
+    if (!data) return { participated: [], authored: [], justiceByLabel: new Map<string, string>() }
     const participated = new Map<string, number>()
     const authored = new Map<string, number>()
     for (const v of data.votes) {
@@ -45,10 +45,16 @@ export default function Home() {
     )
     const top = (counts: Map<string, number>) =>
       [...counts.entries()]
-        .map(([jn, value]) => ({ label: labelFor.get(jn) ?? jn, value }))
+        .map(([jn, value]) => ({ label: labelFor.get(jn) ?? jn, value, justiceName: jn }))
         .sort((a, b) => b.value - a.value)
         .slice(0, 10)
-    return { participated: top(participated), authored: top(authored) }
+    const participatedTop = top(participated)
+    const authoredTop = top(authored)
+    return {
+      participated: participatedTop,
+      authored: authoredTop,
+      justiceByLabel: new Map([...participatedTop, ...authoredTop].map((r) => [r.label, r.justiceName])),
+    }
   }, [data])
 
   if (error) return <p className="py-16 text-center text-sm text-ink3">Could not load the database: {error}</p>
@@ -123,8 +129,8 @@ export default function Home() {
           }
           subtitle={
             measure === 'participated'
-              ? `Justices who cast votes in the most of the ${data ? formatNumber(data.meta.cases) : ''} cases in the database`
-              : 'Justices who wrote or co-authored the most opinions, concurrences, or dissents in these cases'
+              ? `Justices who cast votes in the most of the ${data ? formatNumber(data.meta.cases) : ''} cases in the database — click a justice for their record`
+              : 'Justices who wrote or co-authored the most opinions, concurrences, or dissents in these cases — click a justice for their record'
           }
         >
           <div className="mb-3 flex gap-1.5" role="group" aria-label="Choose a measure for the top justices chart">
@@ -153,7 +159,13 @@ export default function Home() {
               Opinions authored
             </button>
           </div>
-          <HBarList items={measure === 'participated' ? topJustices.participated : topJustices.authored} />
+          <HBarList
+            items={measure === 'participated' ? topJustices.participated : topJustices.authored}
+            onClickItem={(label) => {
+              const jn = topJustices.justiceByLabel.get(label)
+              if (jn) window.location.hash = `/justices?j=${encodeURIComponent(jn)}`
+            }}
+          />
         </ChartCard>
       </section>
     </div>

@@ -226,12 +226,38 @@ export function HBarList({
 
 /* ── Stat tile ──────────────────────────────────────────────────────────── */
 
-export function StatTile({ label, value, detail }: { label: string; value: string; detail?: string }) {
-  return (
-    <div className="rounded-lg border border-hairline bg-surface px-4 py-3">
+export function StatTile({
+  label,
+  value,
+  detail,
+  onClick,
+  title,
+}: {
+  label: string
+  value: string
+  detail?: string
+  /** When set, the tile renders as a button (e.g. "Opinions written" applying a filter). */
+  onClick?: () => void
+  title?: string
+}) {
+  const inner = (
+    <>
       <p className="text-xs text-ink3">{label}</p>
       <p className="mt-0.5 text-2xl font-semibold text-ink">{value}</p>
       {detail && <p className="mt-0.5 text-xs text-ink3">{detail}</p>}
-    </div>
+    </>
   )
+  if (onClick) {
+    return (
+      <button
+        type="button"
+        onClick={onClick}
+        title={title}
+        className="cursor-pointer rounded-lg border border-hairline bg-surface px-4 py-3 text-left hover:border-accent hover:bg-accent-wash"
+      >
+        {inner}
+      </button>
+    )
+  }
+  return <div className="rounded-lg border border-hairline bg-surface px-4 py-3">{inner}</div>
 }

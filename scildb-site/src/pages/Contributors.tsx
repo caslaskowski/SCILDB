@@ -73,21 +73,21 @@ export default function Contributors() {
       </header>
       <div className="flex flex-col gap-8">
         {CONTRIBUTORS.map((person) => (
-          <section key={person.name} className="flex flex-col gap-4 sm:flex-row sm:items-start">
+          <section key={person.name} className="flex flex-row items-start gap-4 sm:gap-5">
             <img
               src={`${import.meta.env.BASE_URL}assets/contributors/${person.photo}`}
               alt={`Portrait of ${person.name}`}
               width={144}
               height={144}
               loading="lazy"
-              // If the photo hasn't been added to public/assets/contributors yet,
-              // hide the broken-image placeholder and let the text stand alone.
+              // If a photo is missing, hide the broken-image placeholder and
+              // let the text stand alone.
               onError={(e) => {
                 e.currentTarget.style.display = 'none'
               }}
-              className="h-36 w-36 shrink-0 rounded-lg border border-hairline object-cover"
+              className="h-24 w-24 shrink-0 rounded-lg border border-hairline object-cover sm:h-36 sm:w-36"
             />
-            <p className="text-[15px] leading-relaxed text-ink2">{person.bio}</p>
+            <p className="min-w-0 text-[15px] leading-relaxed text-ink2">{person.bio}</p>
           </section>
         ))}
       </div>
