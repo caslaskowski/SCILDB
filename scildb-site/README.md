@@ -40,3 +40,19 @@ repository lean, but it remains fully recoverable from git history — to restor
 last commit that contained it (`git log --oneline -- build_site_data.py`) and check it out
 (`git checkout <commit> -- build_site_data.py data/`). Re-run the pipeline and rebuild the
 site whenever the underlying research data changes.
+
+## Justice portraits
+
+Portraits on the Justices page come from Wikipedia's list of Supreme Court justices (hosted on
+Wikimedia Commons; mostly public-domain official portraits). They are fetched by a small script
+at the repository root — run it locally, review its match report, then commit the results:
+
+```sh
+pip install requests beautifulsoup4
+python fetch_portraits.py
+```
+
+It downloads one 256px thumbnail per justice into `public/assets/justices/` and writes
+`public/data/portraits.json`, which maps each justice to their image and its source article.
+The site renders an initials avatar for any justice without a portrait, so a partial run never
+breaks anything.

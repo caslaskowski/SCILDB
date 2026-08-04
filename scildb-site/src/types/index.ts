@@ -72,8 +72,19 @@ export interface Dataset {
   votes: VoteRec[]
   justices: Justice[]
   meta: Meta
+  /** Portrait manifest keyed by justiceName; empty until fetch_portraits.py has been run. */
+  portraits: Record<string, PortraitEntry>
   /** Earliest year a decision in the database was issued (date decided, not term). */
   yearMin: number
   /** Latest year a decision in the database was issued (date decided, not term). */
   yearMax: number
+}
+
+export interface PortraitEntry {
+  /** Image filename under public/assets/justices/ (self-hosted mode). */
+  file?: string
+  /** Full remote image URL (hotlink mode, fetch_portraits.py --hotlink). */
+  url?: string
+  /** Wikipedia article the portrait was sourced from, for attribution. */
+  source: string
 }

@@ -1,6 +1,7 @@
 import Papa from 'papaparse'
 import { Fragment, useCallback, useMemo, useState } from 'react'
 import CaseDetail from '../components/CaseDetail'
+import JusticePortrait from '../components/JusticePortrait'
 import { HBarList, StatTile } from '../components/charts'
 import { FilterBar, MultiSelect, SearchBox, YearRange } from '../components/filters'
 import {
@@ -429,9 +430,17 @@ function JusticesView({ data }: { data: Dataset }) {
       {selectedStats && (
         <section className="mt-2 mb-6 rounded-lg border border-accent/40 bg-surface p-4">
           <div className="flex flex-wrap items-baseline justify-between gap-2">
-            <div>
-              <h2 className="font-serif text-xl font-semibold text-ink">{selectedStats.fullName}</h2>
-              <p className="text-xs text-ink3">On the Court {selectedStats.yearsCourt}</p>
+            <div className="flex items-center gap-3">
+              <JusticePortrait
+                key={selectedStats.justiceName}
+                fullName={selectedStats.fullName}
+                portrait={data.portraits[selectedStats.justiceName]}
+                size="lg"
+              />
+              <div>
+                <h2 className="font-serif text-xl font-semibold text-ink">{selectedStats.fullName}</h2>
+                <p className="text-xs text-ink3">On the Court {selectedStats.yearsCourt}</p>
+              </div>
             </div>
             <button
               type="button"
@@ -659,10 +668,13 @@ function JusticesView({ data }: { data: Dataset }) {
                         e.stopPropagation()
                         selectJustice(s.justiceName === selected ? null : s.justiceName)
                       }}
-                      className="cursor-pointer text-left"
+                      className="flex cursor-pointer items-center gap-2.5 text-left"
                     >
-                      <span className="block font-medium text-ink">{s.fullName}</span>
-                      <span className="block text-xs text-ink3">{s.yearsCourt}</span>
+                      <JusticePortrait fullName={s.fullName} portrait={data.portraits[s.justiceName]} />
+                      <span>
+                        <span className="block font-medium text-ink">{s.fullName}</span>
+                        <span className="block text-xs text-ink3">{s.yearsCourt}</span>
+                      </span>
                     </button>
                   </td>
                   <td className="px-2 py-2 text-ink2 tabular-nums">{s.startYear ?? '—'}</td>

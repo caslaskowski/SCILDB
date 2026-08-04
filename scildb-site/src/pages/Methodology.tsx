@@ -260,6 +260,22 @@ export default function Methodology() {
           </li>
         </ol>
       </Section>
+
+      <Section title="Justice Portraits">
+        <p>
+          The portraits shown alongside each justice are drawn from{' '}
+          <a
+            href="https://en.wikipedia.org/wiki/List_of_justices_of_the_Supreme_Court_of_the_United_States"
+            className="text-accent hover:underline"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Wikipedia's list of justices of the Supreme Court
+          </a>
+          , which hosts them via Wikimedia Commons. Most are official portraits or historical photographs
+          in the public domain. The source article for each image is recorded in the site's data files.
+        </p>
+      </Section>
     </div>
   )
 }
