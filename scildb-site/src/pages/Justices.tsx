@@ -339,96 +339,8 @@ function JusticesView({ data }: { data: Dataset }) {
     </th>
   )
 
-  return (
-    <div>
-      <header className="mb-6">
-        <h1 className="font-serif text-3xl font-semibold tracking-tight text-ink">Justices</h1>
-        <p className="mt-1 max-w-3xl text-sm text-ink2">
-          Voting records of every justice who participated in the Court's Indian law docket, listed in order
-          of appointment to the Court. Filter by case category, the year a decision was issued, or which
-          justices authored an opinion; click any justice for their full case-by-case record.
-        </p>
-      </header>
-
-      <FilterBar
-        onClear={() => {
-          setSearch('')
-          setCategories([])
-          setAuthorLabels([])
-          setOpinionTypes([])
-          setVoteTypes([])
-          setYearFrom(data.yearMin)
-          setYearTo(data.yearMax)
-        }}
-        active={filtersActive}
-      >
-        <SearchBox label="Search justice" value={search} onChange={setSearch} placeholder="e.g. Marshall" width="w-56" />
-        <MultiSelect label="Case categories" options={allCategories} selected={categories} onChange={setCategories} />
-        <MultiSelect
-          label="Opinion authored by"
-          options={authorOptions.labels}
-          selected={authorLabels}
-          onChange={setAuthorLabels}
-          placeholder="Any justice"
-        />
-        <MultiSelect
-          label="Opinion type authored"
-          options={OPINION_TYPES}
-          selected={opinionTypes}
-          onChange={setOpinionTypes}
-          placeholder="Any type"
-        />
-        <MultiSelect
-          label="Vote"
-          options={voteOptions.labels}
-          selected={voteTypes}
-          onChange={setVoteTypes}
-          placeholder="Any vote"
-        />
-        <YearRange
-          label="Year decided"
-          min={data.yearMin}
-          max={data.yearMax}
-          from={yearFrom}
-          to={yearTo}
-          onChange={(f, t) => {
-            setYearFrom(f)
-            setYearTo(t)
-          }}
-        />
-      </FilterBar>
-
-      {authorLabels.length > 0 && (
-        <p className="mb-4 rounded-md border border-accent/40 bg-accent-wash px-3 py-2 text-xs text-ink2">
-          Limited to the {formatNumber(scopedCaseIds.size)} case{scopedCaseIds.size === 1 ? '' : 's'} with an
-          opinion, concurrence, or dissent authored by{' '}
-          <span className="font-semibold text-ink">{authorLabels.join(' or ')}</span>.
-        </p>
-      )}
-
-      {(opinionTypes.length > 0 || voteTypes.length > 0) && (
-        <p className="mb-4 rounded-md border border-accent/40 bg-accent-wash px-3 py-2 text-xs text-ink2">
-          Each justice's numbers count only votes
-          {opinionTypes.length > 0 && (
-            <>
-              {' '}
-              where they authored a{' '}
-              <span className="font-semibold text-ink">{opinionTypes.join(' or ').toLowerCase()}</span>
-            </>
-          )}
-          {opinionTypes.length > 0 && voteTypes.length > 0 && ' and'}
-          {voteTypes.length > 0 && (
-            <>
-              {' '}
-              recorded as <span className="font-semibold text-ink">{voteTypes.join(' or ')}</span>
-            </>
-          )}
-          .
-        </p>
-      )}
-
-      {selectedStats && (
-        <section className="mt-2 mb-6 rounded-lg border border-accent/40 bg-surface p-4">
+  const justiceCard = selectedStats && (
+        <section className="border-t-2 border-accent/40 p-4">
           <div className="flex flex-wrap items-baseline justify-between gap-2">
             <div className="flex items-center gap-3">
               <JusticePortrait
@@ -621,7 +533,96 @@ function JusticesView({ data }: { data: Dataset }) {
             </table>
           </div>
         </section>
+  )
+
+  return (
+    <div>
+      <header className="mb-6">
+        <h1 className="font-serif text-3xl font-semibold tracking-tight text-ink">Justices</h1>
+        <p className="mt-1 max-w-3xl text-sm text-ink2">
+          Voting records of every justice who participated in the Court's Indian law docket, listed in order
+          of appointment to the Court. Filter by case category, the year a decision was issued, or which
+          justices authored an opinion; click any justice for their full case-by-case record.
+        </p>
+      </header>
+
+      <FilterBar
+        onClear={() => {
+          setSearch('')
+          setCategories([])
+          setAuthorLabels([])
+          setOpinionTypes([])
+          setVoteTypes([])
+          setYearFrom(data.yearMin)
+          setYearTo(data.yearMax)
+        }}
+        active={filtersActive}
+      >
+        <SearchBox label="Search justice" value={search} onChange={setSearch} placeholder="e.g. Marshall" width="w-56" />
+        <MultiSelect label="Case categories" options={allCategories} selected={categories} onChange={setCategories} />
+        <MultiSelect
+          label="Opinion authored by"
+          options={authorOptions.labels}
+          selected={authorLabels}
+          onChange={setAuthorLabels}
+          placeholder="Any justice"
+        />
+        <MultiSelect
+          label="Opinion type authored"
+          options={OPINION_TYPES}
+          selected={opinionTypes}
+          onChange={setOpinionTypes}
+          placeholder="Any type"
+        />
+        <MultiSelect
+          label="Vote"
+          options={voteOptions.labels}
+          selected={voteTypes}
+          onChange={setVoteTypes}
+          placeholder="Any vote"
+        />
+        <YearRange
+          label="Year decided"
+          min={data.yearMin}
+          max={data.yearMax}
+          from={yearFrom}
+          to={yearTo}
+          onChange={(f, t) => {
+            setYearFrom(f)
+            setYearTo(t)
+          }}
+        />
+      </FilterBar>
+
+      {authorLabels.length > 0 && (
+        <p className="mb-4 rounded-md border border-accent/40 bg-accent-wash px-3 py-2 text-xs text-ink2">
+          Limited to the {formatNumber(scopedCaseIds.size)} case{scopedCaseIds.size === 1 ? '' : 's'} with an
+          opinion, concurrence, or dissent authored by{' '}
+          <span className="font-semibold text-ink">{authorLabels.join(' or ')}</span>.
+        </p>
       )}
+
+      {(opinionTypes.length > 0 || voteTypes.length > 0) && (
+        <p className="mb-4 rounded-md border border-accent/40 bg-accent-wash px-3 py-2 text-xs text-ink2">
+          Each justice's numbers count only votes
+          {opinionTypes.length > 0 && (
+            <>
+              {' '}
+              where they authored a{' '}
+              <span className="font-semibold text-ink">{opinionTypes.join(' or ').toLowerCase()}</span>
+            </>
+          )}
+          {opinionTypes.length > 0 && voteTypes.length > 0 && ' and'}
+          {voteTypes.length > 0 && (
+            <>
+              {' '}
+              recorded as <span className="font-semibold text-ink">{voteTypes.join(' or ')}</span>
+            </>
+          )}
+          .
+        </p>
+      )}
+
 
       <section className="overflow-hidden rounded-lg border border-hairline bg-surface">
         <div className="flex flex-wrap items-center justify-between gap-2 border-b border-hairline px-4 py-2.5">
@@ -652,13 +653,13 @@ function JusticesView({ data }: { data: Dataset }) {
             </thead>
             <tbody>
               {visible.map((s) => (
-                <tr
-                  key={s.justiceName}
-                  onClick={() => selectJustice(s.justiceName === selected ? null : s.justiceName)}
-                  className={`cursor-pointer border-b border-hairline last:border-b-0 hover:bg-accent-wash ${
-                    selected === s.justiceName ? 'bg-accent-wash' : ''
-                  }`}
-                >
+                <Fragment key={s.justiceName}>
+                  <tr
+                    onClick={() => selectJustice(s.justiceName === selected ? null : s.justiceName)}
+                    className={`cursor-pointer border-b border-hairline last:border-b-0 hover:bg-accent-wash ${
+                      selected === s.justiceName ? 'bg-accent-wash' : ''
+                    }`}
+                  >
                   <td className="py-2 pr-2 pl-4">
                     <button
                       type="button"
@@ -682,10 +683,18 @@ function JusticesView({ data }: { data: Dataset }) {
                   <td className="px-2 py-2 text-ink2 tabular-nums">
                     {s.cases ? `${Math.round((s.inMajority / s.cases) * 100)}%` : '—'}
                   </td>
-                  <td className="px-2 py-2 text-ink2 tabular-nums">{formatNumber(s.dissents)}</td>
-                  <td className="px-2 py-2 text-ink2 tabular-nums">{formatNumber(s.opinions)}</td>
-                  <td className="px-2 py-2 text-ink2 tabular-nums">{formatNumber(s.majOpinions)}</td>
-                </tr>
+                    <td className="px-2 py-2 text-ink2 tabular-nums">{formatNumber(s.dissents)}</td>
+                    <td className="px-2 py-2 text-ink2 tabular-nums">{formatNumber(s.opinions)}</td>
+                    <td className="px-2 py-2 text-ink2 tabular-nums">{formatNumber(s.majOpinions)}</td>
+                  </tr>
+                  {selected === s.justiceName && selectedStats && (
+                    <tr className="border-b border-hairline last:border-b-0">
+                      <td colSpan={7} className="p-0">
+                        {justiceCard}
+                      </td>
+                    </tr>
+                  )}
+                </Fragment>
               ))}
               {visible.length === 0 && (
                 <tr>
