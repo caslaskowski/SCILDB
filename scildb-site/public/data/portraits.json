@@ -1,1 +1,474 @@
-{}
+{
+ "JJay": {
+  "file": "JJay.png",
+  "source": "https://en.wikipedia.org/wiki/2024_Arkansas_Supreme_Court_Chief_Justice_election"
+ },
+ "JRutledge1": {
+  "file": "JRutledge1.jpg",
+  "source": "https://en.wikipedia.org/wiki/John_Rutledge"
+ },
+ "WCushing": {
+  "file": "WCushing.jpg",
+  "source": "https://en.wikipedia.org/wiki/William_Cushing"
+ },
+ "JWilson": {
+  "file": "JWilson.png",
+  "source": "https://en.wikipedia.org/wiki/List_of_justices_of_the_Supreme_Court_of_the_United_States"
+ },
+ "JBlair": {
+  "file": "JBlair.png",
+  "source": "https://en.wikipedia.org/wiki/List_of_justices_of_the_Supreme_Court_of_the_United_States"
+ },
+ "JIredell": {
+  "file": "JIredell.png",
+  "source": "https://en.wikipedia.org/wiki/List_of_justices_of_the_Supreme_Court_of_the_United_States"
+ },
+ "TJohnson": {
+  "file": "TJohnson.png",
+  "source": "https://en.wikipedia.org/wiki/List_of_justices_of_the_Supreme_Court_of_the_United_States"
+ },
+ "WPaterson": {
+  "file": "WPaterson.png",
+  "source": "https://en.wikipedia.org/wiki/List_of_justices_of_the_Supreme_Court_of_the_United_States"
+ },
+ "JRutledge2": {
+  "file": "JRutledge2.jpg",
+  "source": "https://en.wikipedia.org/wiki/John_Rutledge"
+ },
+ "SChase": {
+  "file": "SChase.jpg",
+  "source": "https://en.wikipedia.org/wiki/Samuel_Chase"
+ },
+ "OEllsworth": {
+  "file": "OEllsworth.jpg",
+  "source": "https://en.wikipedia.org/wiki/Oliver_Ellsworth"
+ },
+ "BWashington": {
+  "file": "BWashington.jpg",
+  "source": "https://en.wikipedia.org/wiki/Bushrod_Washington"
+ },
+ "AMoore": {
+  "file": "AMoore.png",
+  "source": "https://en.wikipedia.org/wiki/List_of_justices_of_the_Supreme_Court_of_the_United_States"
+ },
+ "JMarshall": {
+  "file": "JMarshall.jpg",
+  "source": "https://en.wikipedia.org/wiki/John_Marshall"
+ },
+ "WJohnson": {
+  "file": "WJohnson.png",
+  "source": "https://en.wikipedia.org/wiki/List_of_justices_of_the_Supreme_Court_of_the_United_States"
+ },
+ "HBLivingston": {
+  "file": "HBLivingston.jpg",
+  "source": "https://en.wikipedia.org/wiki/Henry_Brockholst_Livingston"
+ },
+ "TTodd": {
+  "file": "TTodd.png",
+  "source": "https://en.wikipedia.org/wiki/List_of_justices_of_the_Supreme_Court_of_the_United_States"
+ },
+ "GDuvall": {
+  "file": "GDuvall.png",
+  "source": "https://en.wikipedia.org/wiki/List_of_justices_of_the_Supreme_Court_of_the_United_States"
+ },
+ "JStory": {
+  "file": "JStory.png",
+  "source": "https://en.wikipedia.org/wiki/List_of_justices_of_the_Supreme_Court_of_the_United_States"
+ },
+ "SThompson": {
+  "file": "SThompson.png",
+  "source": "https://en.wikipedia.org/wiki/List_of_justices_of_the_Supreme_Court_of_the_United_States"
+ },
+ "RTrimble": {
+  "file": "RTrimble.jpg",
+  "source": "https://en.wikipedia.org/wiki/Robert_Trimble"
+ },
+ "JMcLean": {
+  "file": "JMcLean.jpg",
+  "source": "https://en.wikipedia.org/wiki/John_McLean"
+ },
+ "HBaldwin": {
+  "file": "HBaldwin.png",
+  "source": "https://en.wikipedia.org/wiki/List_of_justices_of_the_Supreme_Court_of_the_United_States"
+ },
+ "JMWayne": {
+  "file": "JMWayne.png",
+  "source": "https://en.wikipedia.org/wiki/List_of_justices_of_the_Supreme_Court_of_the_United_States"
+ },
+ "RBTaney": {
+  "file": "RBTaney.jpg",
+  "source": "https://en.wikipedia.org/wiki/Roger_B._Taney"
+ },
+ "PPBarbour": {
+  "file": "PPBarbour.jpg",
+  "source": "https://en.wikipedia.org/wiki/Philip_P._Barbour"
+ },
+ "JCatron": {
+  "file": "JCatron.jpg",
+  "source": "https://en.wikipedia.org/wiki/John_Catron"
+ },
+ "JMcKinley": {
+  "file": "JMcKinley.png",
+  "source": "https://en.wikipedia.org/wiki/List_of_justices_of_the_Supreme_Court_of_the_United_States"
+ },
+ "PVDaniel": {
+  "file": "PVDaniel.png",
+  "source": "https://en.wikipedia.org/wiki/List_of_justices_of_the_Supreme_Court_of_the_United_States"
+ },
+ "SNelson": {
+  "file": "SNelson.png",
+  "source": "https://en.wikipedia.org/wiki/List_of_justices_of_the_Supreme_Court_of_the_United_States"
+ },
+ "LWoodbury": {
+  "file": "LWoodbury.png",
+  "source": "https://en.wikipedia.org/wiki/List_of_justices_of_the_Supreme_Court_of_the_United_States"
+ },
+ "RCGrier": {
+  "file": "RCGrier.jpg",
+  "source": "https://en.wikipedia.org/wiki/Robert_Cooper_Grier"
+ },
+ "BRCurtis": {
+  "file": "BRCurtis.png",
+  "source": "https://en.wikipedia.org/wiki/Benjamin_Robbins_Curtis"
+ },
+ "JACampbell": {
+  "file": "JACampbell.png",
+  "source": "https://en.wikipedia.org/wiki/List_of_justices_of_the_Supreme_Court_of_the_United_States"
+ },
+ "NClifford": {
+  "file": "NClifford.png",
+  "source": "https://en.wikipedia.org/wiki/List_of_justices_of_the_Supreme_Court_of_the_United_States"
+ },
+ "NHSwayne": {
+  "file": "NHSwayne.png",
+  "source": "https://en.wikipedia.org/wiki/List_of_justices_of_the_Supreme_Court_of_the_United_States"
+ },
+ "SFMiller": {
+  "file": "SFMiller.png",
+  "source": "https://en.wikipedia.org/wiki/List_of_justices_of_the_Supreme_Court_of_the_United_States"
+ },
+ "DDavis": {
+  "file": "DDavis.jpg",
+  "source": "https://en.wikipedia.org/wiki/David_Davis_(Supreme_Court_justice)"
+ },
+ "SJField": {
+  "file": "SJField.png",
+  "source": "https://en.wikipedia.org/wiki/List_of_justices_of_the_Supreme_Court_of_the_United_States"
+ },
+ "SPChase": {
+  "file": "SPChase.jpg",
+  "source": "https://en.wikipedia.org/wiki/Salmon_P._Chase"
+ },
+ "WStrong": {
+  "file": "WStrong.png",
+  "source": "https://en.wikipedia.org/wiki/List_of_justices_of_the_Supreme_Court_of_the_United_States"
+ },
+ "JPBradley": {
+  "file": "JPBradley.png",
+  "source": "https://en.wikipedia.org/wiki/List_of_justices_of_the_Supreme_Court_of_the_United_States"
+ },
+ "WHunt": {
+  "file": "WHunt.png",
+  "source": "https://en.wikipedia.org/wiki/List_of_justices_of_the_Supreme_Court_of_the_United_States"
+ },
+ "MRWaite": {
+  "file": "MRWaite.jpg",
+  "source": "https://en.wikipedia.org/wiki/Morrison_Waite"
+ },
+ "JHarlan1": {
+  "file": "JHarlan1.jpg",
+  "source": "https://en.wikipedia.org/wiki/John_Marshall_Harlan"
+ },
+ "WBWoods": {
+  "file": "WBWoods.png",
+  "source": "https://en.wikipedia.org/wiki/List_of_justices_of_the_Supreme_Court_of_the_United_States"
+ },
+ "SMatthews": {
+  "file": "SMatthews.jpg",
+  "source": "https://en.wikipedia.org/wiki/Stanley_Matthews_(judge)"
+ },
+ "HGray": {
+  "file": "HGray.jpg",
+  "source": "https://en.wikipedia.org/wiki/Horace_Gray"
+ },
+ "SBlatchford": {
+  "file": "SBlatchford.png",
+  "source": "https://en.wikipedia.org/wiki/Samuel_Blatchford"
+ },
+ "LQLamar": {
+  "file": "LQLamar.png",
+  "source": "https://en.wikipedia.org/wiki/List_of_justices_of_the_Supreme_Court_of_the_United_States"
+ },
+ "MWFuller": {
+  "file": "MWFuller.jpg",
+  "source": "https://en.wikipedia.org/wiki/Fuller_Court"
+ },
+ "DJBrewer": {
+  "file": "DJBrewer.jpg",
+  "source": "https://en.wikipedia.org/wiki/David_J._Brewer"
+ },
+ "HBBrown": {
+  "file": "HBBrown.png",
+  "source": "https://en.wikipedia.org/wiki/List_of_justices_of_the_Supreme_Court_of_the_United_States"
+ },
+ "GShiras": {
+  "file": "GShiras.png",
+  "source": "https://en.wikipedia.org/wiki/List_of_justices_of_the_Supreme_Court_of_the_United_States"
+ },
+ "HEJackson": {
+  "file": "HEJackson.png",
+  "source": "https://en.wikipedia.org/wiki/List_of_justices_of_the_Supreme_Court_of_the_United_States"
+ },
+ "EDEWhite": {
+  "file": "EDEWhite.png",
+  "source": "https://en.wikipedia.org/wiki/List_of_justices_of_the_Supreme_Court_of_the_United_States"
+ },
+ "RWPeckham": {
+  "file": "RWPeckham.jpg",
+  "source": "https://en.wikipedia.org/wiki/Rufus_W._Peckham"
+ },
+ "JMcKenna": {
+  "file": "JMcKenna.jpg",
+  "source": "https://en.wikipedia.org/wiki/Joseph_McKenna"
+ },
+ "OWHolmes": {
+  "file": "OWHolmes.jpg",
+  "source": "https://en.wikipedia.org/wiki/Oliver_Wendell_Holmes_Jr."
+ },
+ "WRDay": {
+  "file": "WRDay.png",
+  "source": "https://en.wikipedia.org/wiki/List_of_justices_of_the_Supreme_Court_of_the_United_States"
+ },
+ "WHMoody": {
+  "file": "WHMoody.png",
+  "source": "https://en.wikipedia.org/wiki/List_of_justices_of_the_Supreme_Court_of_the_United_States"
+ },
+ "HHLurton": {
+  "file": "HHLurton.jpg",
+  "source": "https://en.wikipedia.org/wiki/Horace_Harmon_Lurton"
+ },
+ "CEHughes1": {
+  "file": "CEHughes1.png",
+  "source": "https://en.wikipedia.org/wiki/List_of_justices_of_the_Supreme_Court_of_the_United_States"
+ },
+ "WVanDevanter": {
+  "file": "WVanDevanter.jpg",
+  "source": "https://en.wikipedia.org/wiki/Willis_Van_Devanter"
+ },
+ "JRLamar": {
+  "file": "JRLamar.png",
+  "source": "https://en.wikipedia.org/wiki/List_of_justices_of_the_Supreme_Court_of_the_United_States"
+ },
+ "MPitney": {
+  "file": "MPitney.jpg",
+  "source": "https://en.wikipedia.org/wiki/Mahlon_Pitney"
+ },
+ "JCMcReynolds": {
+  "file": "JCMcReynolds.jpg",
+  "source": "https://en.wikipedia.org/wiki/James_Clark_McReynolds"
+ },
+ "LDBrandeis": {
+  "file": "LDBrandeis.jpg",
+  "source": "https://en.wikipedia.org/wiki/Louis_Brandeis"
+ },
+ "JHClarke": {
+  "file": "JHClarke.png",
+  "source": "https://en.wikipedia.org/wiki/List_of_justices_of_the_Supreme_Court_of_the_United_States"
+ },
+ "WHTaft": {
+  "file": "WHTaft.jpg",
+  "source": "https://en.wikipedia.org/wiki/Taft_Court"
+ },
+ "GSutherland": {
+  "file": "GSutherland.png",
+  "source": "https://en.wikipedia.org/wiki/List_of_justices_of_the_Supreme_Court_of_the_United_States"
+ },
+ "PButler": {
+  "file": "PButler.jpg",
+  "source": "https://en.wikipedia.org/wiki/Pierce_Butler_(judge)"
+ },
+ "ETSanford": {
+  "file": "ETSanford.png",
+  "source": "https://en.wikipedia.org/wiki/List_of_justices_of_the_Supreme_Court_of_the_United_States"
+ },
+ "HFStone": {
+  "file": "HFStone.jpg",
+  "source": "https://en.wikipedia.org/wiki/Harlan_F._Stone"
+ },
+ "CEHughes2": {
+  "file": "CEHughes2.png",
+  "source": "https://en.wikipedia.org/wiki/List_of_justices_of_the_Supreme_Court_of_the_United_States"
+ },
+ "OJRoberts": {
+  "file": "OJRoberts.jpg",
+  "source": "https://en.wikipedia.org/wiki/Owen_Roberts"
+ },
+ "BNCardozo": {
+  "file": "BNCardozo.jpg",
+  "source": "https://en.wikipedia.org/wiki/Benjamin_N._Cardozo"
+ },
+ "HLBlack": {
+  "file": "HLBlack.jpg",
+  "source": "https://en.wikipedia.org/wiki/Hugo_Black"
+ },
+ "SFReed": {
+  "file": "SFReed.jpg",
+  "source": "https://en.wikipedia.org/wiki/Stanley_Forman_Reed"
+ },
+ "FFrankfurter": {
+  "file": "FFrankfurter.jpg",
+  "source": "https://en.wikipedia.org/wiki/Felix_Frankfurter"
+ },
+ "WODouglas": {
+  "file": "WODouglas.png",
+  "source": "https://en.wikipedia.org/wiki/List_of_justices_of_the_Supreme_Court_of_the_United_States"
+ },
+ "FMurphy": {
+  "file": "FMurphy.jpg",
+  "source": "https://en.wikipedia.org/wiki/List_of_justices_of_the_Supreme_Court_of_the_United_States"
+ },
+ "JFByrnes": {
+  "file": "JFByrnes.jpg",
+  "source": "https://en.wikipedia.org/wiki/James_F._Byrnes"
+ },
+ "RHJackson": {
+  "file": "RHJackson.png",
+  "source": "https://en.wikipedia.org/wiki/List_of_justices_of_the_Supreme_Court_of_the_United_States"
+ },
+ "WBRutledge": {
+  "file": "WBRutledge.png",
+  "source": "https://en.wikipedia.org/wiki/List_of_justices_of_the_Supreme_Court_of_the_United_States"
+ },
+ "HHBurton": {
+  "file": "HHBurton.jpg",
+  "source": "https://en.wikipedia.org/wiki/Harold_H._Burton"
+ },
+ "FMVinson": {
+  "file": "FMVinson.jpg",
+  "source": "https://en.wikipedia.org/wiki/Fred_M._Vinson"
+ },
+ "TCClark": {
+  "file": "TCClark.jpg",
+  "source": "https://en.wikipedia.org/wiki/Tom_C._Clark"
+ },
+ "SMinton": {
+  "file": "SMinton.jpg",
+  "source": "https://en.wikipedia.org/wiki/Sherman_Minton"
+ },
+ "EWarren": {
+  "file": "EWarren.jpg",
+  "source": "https://en.wikipedia.org/wiki/Warren_Court"
+ },
+ "JHarlan2": {
+  "file": "JHarlan2.jpg",
+  "source": "https://en.wikipedia.org/wiki/John_Marshall_Harlan"
+ },
+ "WJBrennan": {
+  "file": "WJBrennan.jpg",
+  "source": "https://en.wikipedia.org/wiki/William_J._Brennan_Jr."
+ },
+ "CEWhittaker": {
+  "file": "CEWhittaker.jpg",
+  "source": "https://en.wikipedia.org/wiki/Charles_Evans_Whittaker"
+ },
+ "PStewart": {
+  "file": "PStewart.jpg",
+  "source": "https://en.wikipedia.org/wiki/Potter_Stewart"
+ },
+ "BRWhite": {
+  "file": "BRWhite.png",
+  "source": "https://en.wikipedia.org/wiki/List_of_justices_of_the_Supreme_Court_of_the_United_States"
+ },
+ "AJGoldberg": {
+  "file": "AJGoldberg.jpg",
+  "source": "https://en.wikipedia.org/wiki/Arthur_Goldberg"
+ },
+ "AFortas": {
+  "file": "AFortas.jpeg",
+  "source": "https://en.wikipedia.org/wiki/Abe_Fortas"
+ },
+ "TMarshall": {
+  "file": "TMarshall.jpg",
+  "source": "https://en.wikipedia.org/wiki/Thurgood_Marshall"
+ },
+ "WEBurger": {
+  "file": "WEBurger.jpeg",
+  "source": "https://en.wikipedia.org/wiki/Burger_Court"
+ },
+ "HABlackmun": {
+  "file": "HABlackmun.jpg",
+  "source": "https://en.wikipedia.org/wiki/Harry_Blackmun"
+ },
+ "LFPowell": {
+  "file": "LFPowell.png",
+  "source": "https://en.wikipedia.org/wiki/List_of_justices_of_the_Supreme_Court_of_the_United_States"
+ },
+ "WHRehnquist": {
+  "file": "WHRehnquist.jpg",
+  "source": "https://en.wikipedia.org/wiki/Rehnquist_Court"
+ },
+ "JPStevens": {
+  "file": "JPStevens.jpg",
+  "source": "https://en.wikipedia.org/wiki/John_Paul_Stevens"
+ },
+ "SDOConnor": {
+  "file": "SDOConnor.jpg",
+  "source": "https://en.wikipedia.org/wiki/Sandra_Day_O%27Connor"
+ },
+ "AScalia": {
+  "file": "AScalia.jpg",
+  "source": "https://en.wikipedia.org/wiki/Antonin_Scalia"
+ },
+ "AMKennedy": {
+  "file": "AMKennedy.jpg",
+  "source": "https://en.wikipedia.org/wiki/Anthony_Kennedy"
+ },
+ "DHSouter": {
+  "file": "DHSouter.jpg",
+  "source": "https://en.wikipedia.org/wiki/David_Souter"
+ },
+ "CThomas": {
+  "file": "CThomas.jpg",
+  "source": "https://en.wikipedia.org/wiki/Clarence_Thomas"
+ },
+ "RBGinsburg": {
+  "file": "RBGinsburg.jpg",
+  "source": "https://en.wikipedia.org/wiki/Ruth_Bader_Ginsburg"
+ },
+ "SGBreyer": {
+  "file": "SGBreyer.jpg",
+  "source": "https://en.wikipedia.org/wiki/Stephen_Breyer"
+ },
+ "JGRoberts": {
+  "file": "JGRoberts.jpg",
+  "source": "https://en.wikipedia.org/wiki/Roberts_Court"
+ },
+ "SAAlito": {
+  "file": "SAAlito.jpg",
+  "source": "https://en.wikipedia.org/wiki/Samuel_Alito"
+ },
+ "SSotomayor": {
+  "file": "SSotomayor.jpg",
+  "source": "https://en.wikipedia.org/wiki/Sonia_Sotomayor_Supreme_Court_nomination"
+ },
+ "EKagan": {
+  "file": "EKagan.jpg",
+  "source": "https://en.wikipedia.org/wiki/Elena_Kagan_Supreme_Court_nomination"
+ },
+ "NMGorsuch": {
+  "file": "NMGorsuch.jpg",
+  "source": "https://en.wikipedia.org/wiki/Neil_Gorsuch_Supreme_Court_nomination"
+ },
+ "BMKavanaugh": {
+  "file": "BMKavanaugh.jpg",
+  "source": "https://en.wikipedia.org/wiki/Brett_Kavanaugh_Supreme_Court_nomination"
+ },
+ "ACBarrett": {
+  "file": "ACBarrett.jpg",
+  "source": "https://en.wikipedia.org/wiki/Amy_Coney_Barrett_Supreme_Court_nomination"
+ },
+ "KBJackson": {
+  "file": "KBJackson.jpg",
+  "source": "https://en.wikipedia.org/wiki/Ketanji_Brown_Jackson"
+ }
+}
