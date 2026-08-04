@@ -29,14 +29,14 @@ npm run preview  # serve the production build
 ## Data
 
 The site reads static JSON from `public/data/` (`cases.json`, `votes.json`, `justices.json`,
-`meta.json`). These are generated from the research data in `../data/` by the build script at
-the repository root:
+`meta.json`). These files are the complete dataset the site needs at runtime — no other data
+files or scripts are required to build or deploy.
 
-```sh
-python ../build_site_data.py
-```
-
-The script dedupes cases, decodes SCDB numeric codes using `../data/codebook/*.csv`, computes
-the "disposition for the Native party" (SCDB party code 170 + winning-party code), and compacts
-the per-justice vote records. Re-run it whenever `../data/scildb_cases.json` or
-`../data/scildb_votes.json` change, then rebuild the site.
+The JSON was originally generated from SCDB source data by a Python pipeline
+(`build_site_data.py` and the `data/` directory at the repository root). That pipeline dedupes
+cases, decodes SCDB numeric codes, computes the "disposition for the Native party," and
+compacts the per-justice vote records. It was removed from the working tree to keep the
+repository lean, but it remains fully recoverable from git history — to restore it, find the
+last commit that contained it (`git log --oneline -- build_site_data.py`) and check it out
+(`git checkout <commit> -- build_site_data.py data/`). Re-run the pipeline and rebuild the
+site whenever the underlying research data changes.

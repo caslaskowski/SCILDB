@@ -232,13 +232,16 @@ export function StatTile({
   detail,
   onClick,
   title,
+  active,
 }: {
   label: string
   value: string
   detail?: string
-  /** When set, the tile renders as a button (e.g. "Opinions written" applying a filter). */
+  /** When set, the tile renders as a button (e.g. "Opinions authored" applying a filter). */
   onClick?: () => void
   title?: string
+  /** For clickable tiles that toggle a filter: whether that filter is currently applied. */
+  active?: boolean
 }) {
   const inner = (
     <>
@@ -253,7 +256,10 @@ export function StatTile({
         type="button"
         onClick={onClick}
         title={title}
-        className="cursor-pointer rounded-lg border border-hairline bg-surface px-4 py-3 text-left hover:border-accent hover:bg-accent-wash"
+        aria-pressed={active}
+        className={`cursor-pointer rounded-lg border px-4 py-3 text-left hover:border-accent hover:bg-accent-wash ${
+          active ? 'border-accent bg-accent-wash' : 'border-hairline bg-surface'
+        }`}
       >
         {inner}
       </button>

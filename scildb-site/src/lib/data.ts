@@ -83,6 +83,24 @@ export function authoredOpinion(vote: VoteRec): boolean {
   return vote.o === 2 || vote.o === 3 || vote.w === 1
 }
 
+export type OpinionType = 'Majority opinion' | 'Concurrence' | 'Dissent'
+
+export const OPINION_TYPES: OpinionType[] = ['Majority opinion', 'Concurrence', 'Dissent']
+
+/**
+ * The type of opinion this vote record shows the justice wrote or co-authored,
+ * or null if they authored nothing. Classified from the vote code: writing (or
+ * co-authoring) while voting with the majority (codes 1, 5) is a majority
+ * opinion, codes 3–4 are concurrences, and codes 2, 6, 7 are dissents.
+ */
+export function authoredOpinionType(vote: VoteRec): OpinionType | null {
+  if (!authoredOpinion(vote)) return null
+  if (vote.w === 1 || vote.v === 1 || vote.v === 5) return 'Majority opinion'
+  if (vote.v === 3 || vote.v === 4) return 'Concurrence'
+  if (vote.v === 2 || vote.v === 6 || vote.v === 7) return 'Dissent'
+  return null
+}
+
 /** Appointment date as a sortable YYYYMMDD int, parsed from yearsCourt ("10/19/1789-…"). */
 export function appointmentSort(justice: Justice): number {
   const m = justice.yearsCourt.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/)
