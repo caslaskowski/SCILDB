@@ -62,4 +62,10 @@ export function trackPage(route: string): void {
 }
 
 /** Record a data download. Appears under Events, separate from pageviews. */
-export
+export function trackDownload(fileLabel: string): void {
+  send({
+    path: `download-${fileLabel}`,
+    title: `Download: ${fileLabel}`,
+    event: true,
+  })
+}
